@@ -4,6 +4,7 @@ import Rooms
 import GameState
 import Movement
 import Items
+import qualified Data.Map as Map
 
 -- Function to process player input and update game state
 processInput :: String -> GameState -> IO GameState
@@ -35,13 +36,41 @@ inspectItem name gamestate =
 takeItem :: String -> GameState -> IO GameState
 takeItem name gameState =
   case find (\item -> itemName item == name) (roomItems (currentRoom gameState)) of
-    Just item -> return gameState {
-      currentRoom = (currentRoom gameState) {
-        roomItems = filter (\item -> itemName item /= name) (roomItems (currentRoom gameState))
-        },
-      inventory = item : (inventory gameState)
+    Just item -> do
+      let currentInventory = inventory gameState
+      let updatedInventory = addItemToInventory item currentInventory
+      let currentRoomStates = roomStates gameState
+      let currentRoomName = roomName $ currentRoom gameState
+      let updatedRoom = removeItemFromRoom item (currentRoom gameState)
+      let updatedRoomStates = Map.insert currentRoomName updatedRoom currentRoomStates
+      return gameState {
+        currentRoom = updatedRoom,
+        inventory = updatedInventory,
+        roomStates = updatedRoomStates
       }
+
     Nothing -> putStrLn "I don't see that here" >> return gameState
+
+
+-- helper functions
+addItemToInventory :: Item -> [Item] -> [Item]
+addItemToInventory newItem inventory =
+  case find (\existingItem -> itemName existingItem == itemName newItem) inventory of
+    Just existingItem ->
+      let updatedInventory = map (\item -> if itemName item == itemName newItem then updateItemCount item (itemCount newItem) else item) inventory
+      in updatedInventory
+    Nothing -> newItem : inventory
+
+-- Helper function to increase itemCount for an existing item
+updateItemCount :: Item -> Int -> Item
+updateItemCount item count = item { itemCount = itemCount item + count }
+
+removeItemFromRoom :: Item -> Room -> Room
+removeItemFromRoom item room =
+  let prevItems = roomItems room
+      newItems = filter (\i -> itemName i /= itemName item) prevItems
+  in room {roomItems = newItems}
+
 
 -- Function to run the game loop
 gameLoop :: GameState -> IO ()

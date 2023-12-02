@@ -5,7 +5,7 @@ data Item = Item {
   itemHint :: String,
   itemCount :: Int,
   itemDescription :: String
-}
+} deriving Show
 
 key :: Item
 key = Item {

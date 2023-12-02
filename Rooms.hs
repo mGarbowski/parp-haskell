@@ -2,7 +2,7 @@ module Rooms where
 import Data.List
 import Items
 
-data Direction = North | South | West | East deriving Eq
+data Direction = North | South | West | East deriving (Eq, Show)
 
 parseDirection :: String -> Maybe Direction
 parseDirection "north" = Just North
@@ -16,8 +16,8 @@ data Room = Room {
   roomDescription :: String,
   roomHint :: String,
   roomItems :: [Item],
-  directions :: [(Direction, Room)]
-  }
+  directions :: [(Direction, Room)]}
+  deriving Show
 
 -- Function to define the initial room
 initialRoom :: Room
