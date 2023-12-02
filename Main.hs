@@ -19,10 +19,23 @@ processInput input gamestate
   | "hint" `isPrefixOf` input = do
       putStrLn $ roomHint $ currentRoom gamestate
       return gamestate
+  | "go" `isPrefixOf` input = moveDirection (drop 3 input) gamestate
   | otherwise = do
       putStrLn "Invalid command. Type 'instructions' to see available commands."
       return gamestate
 
+
+moveDirection :: String -> GameState -> IO GameState
+moveDirection directionStr gameState =
+  case parseDirection directionStr of
+    Just direction -> case lookup direction (directions (currentRoom gameState)) of
+      Just otherRoom -> return gameState {currentRoom = otherRoom}
+      Nothing -> do
+        putStrLn "You can't go that way"
+        return gameState
+    Nothing -> do
+      putStrLn "You can go north, south, east or west"
+      return gameState
 
 -- Function to run the game loop
 gameLoop :: GameState -> IO ()

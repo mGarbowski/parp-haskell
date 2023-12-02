@@ -1,11 +1,21 @@
 module Rooms where
 import Data.List
 
+data Direction = North | South | West | East deriving Eq
+
+parseDirection :: String -> Maybe Direction
+parseDirection "north" = Just North
+parseDirection "south" = Just South
+parseDirection "west"  = Just West
+parseDirection "east"  = Just East
+parseDirection _ = Nothing
+
 data Room = Room {
   roomName :: String,
   roomDescription :: String,
   roomHint :: String,
-  roomItems :: [String]
+  roomItems :: [String],
+  directions :: [(Direction, Room)]
   }
 
 -- Function to define the initial room
@@ -14,7 +24,17 @@ initialRoom = Room {
   roomName = "Starting Room",
   roomDescription = "You find yourself in a dimly lit room.",
   roomHint = "Try to look around and take some items.",
-  roomItems = ["Key", "Note"]
+  roomItems = ["Key", "Note"],
+  directions = [(North, secondRoom)]
+  }
+
+secondRoom :: Room
+secondRoom = Room {
+  roomName = "Second room",
+  roomDescription = "You moved to another room.",
+  roomHint = "Try to go back.",
+  roomItems = [],
+  directions = [(South, initialRoom)]
   }
 
 
