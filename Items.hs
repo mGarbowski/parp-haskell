@@ -1,20 +1,24 @@
 module Items where
-import GameState
-import Rooms
-import Data.List
 
--- Function to inspect an item in the current room
-inspectItem :: String -> GameState -> GameState
-inspectItem itemName gamestate =
-  case find (\item -> item == itemName) (roomItems (currentRoom gamestate)) of
-    Just _ -> gamestate { currentRoom = (currentRoom gamestate) }
-    Nothing -> gamestate { currentRoom = (currentRoom gamestate) }
+data Item = Item {
+  itemName :: String,
+  itemHint :: String,
+  itemCount :: Int,
+  itemDescription :: String
+}
 
--- Function to take an item from the current room and add it to the inventory
-takeItem :: String -> GameState -> GameState
-takeItem itemName gamestate =
-  case find (\item -> item == itemName) (roomItems (currentRoom gamestate)) of
-    Just _ -> gamestate { currentRoom = (currentRoom gamestate) { roomItems = filter (/= itemName) (roomItems (currentRoom gamestate)) }
-                        , inventory = itemName : (inventory gamestate)
-                        }
-    Nothing -> gamestate { currentRoom = (currentRoom gamestate) }
+key :: Item
+key = Item {
+  itemName = "Key",
+  itemHint = "you can use this to open doors",
+  itemCount = 1,
+  itemDescription = "A small, metal key"
+}
+
+note :: Item
+note = Item {
+  itemName = "Note",
+  itemHint = "inspect this note",
+  itemCount = 1,
+  itemDescription = "The note says: 'They security key is 123456'"
+}

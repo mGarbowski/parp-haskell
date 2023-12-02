@@ -1,5 +1,6 @@
 module Rooms where
 import Data.List
+import Items
 
 data Direction = North | South | West | East deriving Eq
 
@@ -14,7 +15,7 @@ data Room = Room {
   roomName :: String,
   roomDescription :: String,
   roomHint :: String,
-  roomItems :: [String],
+  roomItems :: [Item],
   directions :: [(Direction, Room)]
   }
 
@@ -24,7 +25,7 @@ initialRoom = Room {
   roomName = "Starting Room",
   roomDescription = "You find yourself in a dimly lit room.",
   roomHint = "Try to look around and take some items.",
-  roomItems = ["Key", "Note"],
+  roomItems = [key, note],
   directions = [(North, secondRoom)]
   }
 
@@ -40,4 +41,4 @@ secondRoom = Room {
 
 -- Function to display the current room description and items
 displayRoom :: Room -> String
-displayRoom room = roomDescription room ++ "\nItems in the room: " ++ intercalate ", " (roomItems room)
+displayRoom room = roomDescription room ++ "\nItems in the room: " ++ intercalate ", " (map itemName (roomItems room))
