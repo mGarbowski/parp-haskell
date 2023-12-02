@@ -1,58 +1,80 @@
--- The germ of a text adventure game
--- Marcin Szlenk 2022
-module Main where
-import Instructions
+import Data.List
 
-introductionText = [
-    "A long time ago, in a galaxy far, far away...",
-    "",
-    "It is a period of civil war. Rebel",
-    "spaceships, striking from a hidden",
-    "base, have won their first victory",
-    "against the evil Galactic Empire.",
-    "",
-    "During the battle, Rebel spies managed",
-    "to steal secret plans to the Empire's",
-    "ultimate weapon, the Death Star, an",
-    "armored space station with enough",
-    "power to destroy an entire planet.",
-    "",
-    "Pursued by the Empire's sinister agents,",
-    "Princess Leia races home aboard her",
-    "starship, custodian of the stolen plans",
-    "that can save her people and restore",
-    "freedom to the galaxy....",
-    ""
-    ]
+-- Define types for Room and GameState
+data Room = Room { roomName :: String, roomDescription :: String, roomItems :: [String] }
+data GameState = GameState { currentRoom :: Room, inventory :: [String] }
 
+-- Function to initialize the game state
+initialGameState :: GameState
+initialGameState = GameState
+  { currentRoom = initialRoom
+  , inventory = []
+  }
 
+-- Function to define the initial room
+initialRoom :: Room
+initialRoom = Room
+  { roomName = "Starting Room"
+  , roomDescription = "You find yourself in a dimly lit room."
+  , roomItems = ["Key", "Note"]
+  }
 
--- print strings from list in separate lines
-printLines :: [String] -> IO ()
-printLines xs = putStr (unlines xs)
+-- Function to display the current room description and items
+displayRoom :: Room -> String
+displayRoom room = roomDescription room ++ "\nItems in the room: " ++ intercalate ", " (roomItems room)
 
-printIntroduction = printLines introductionText
-printInstructions = printLines instructionsText
+-- Function to display available instructions
+displayInstructions :: IO ()
+displayInstructions = do
+  putStrLn "Available Instructions:"
+  putStrLn "  - look: View the current room"
+  putStrLn "  - inspect X: Inspect an item in the room"
+  putStrLn "  - take X: Take an item from the room and add it to your inventory"
+  putStrLn "  - inventory: View your current inventory"
+  putStrLn "  - instructions: View available instructions"
 
-readCommand :: IO String
-readCommand = do
-    putStr "> "
-    xs <- getLine
-    return xs
+-- Function to process player input and update game state
+processInput :: String -> GameState -> IO GameState
+processInput input gamestate
+  | "look" `isPrefixOf` input = return gamestate { currentRoom = (currentRoom gamestate) }
+  | "inspect" `isPrefixOf` input = return $ inspectItem (drop 8 input) gamestate
+  | "take" `isPrefixOf` input = return $ takeItem (drop 5 input) gamestate
+  | "inventory" `isPrefixOf` input = do
+      putStrLn $ "Inventory: " ++ intercalate ", " (inventory gamestate)
+      return gamestate
+  | "instructions" `isPrefixOf` input = displayInstructions >> return gamestate
+  | otherwise = do
+      putStrLn "Invalid command. Type 'instructions' to see available commands."
+      return gamestate
 
--- note that the game loop may take the game state as
--- an argument, eg. gameLoop :: State -> IO ()
-gameLoop :: IO ()
-gameLoop = do
-    cmd <- readCommand
-    case cmd of
-        "instructions" -> do printInstructions
-                             gameLoop
-        "quit" -> return ()
-        _ -> do printLines ["Unknown command.", ""]
-                gameLoop
+-- Function to inspect an item in the current room
+inspectItem :: String -> GameState -> GameState
+inspectItem itemName gamestate =
+  case find (\item -> item == itemName) (roomItems (currentRoom gamestate)) of
+    Just _ -> gamestate { currentRoom = (currentRoom gamestate) }
+    Nothing -> gamestate { currentRoom = (currentRoom gamestate) }
 
+-- Function to take an item from the current room and add it to the inventory
+takeItem :: String -> GameState -> GameState
+takeItem itemName gamestate =
+  case find (\item -> item == itemName) (roomItems (currentRoom gamestate)) of
+    Just _ -> gamestate { currentRoom = (currentRoom gamestate) { roomItems = filter (/= itemName) (roomItems (currentRoom gamestate)) }
+                        , inventory = itemName : (inventory gamestate)
+                        }
+    Nothing -> gamestate { currentRoom = (currentRoom gamestate) }
+
+-- Function to run the game loop
+gameLoop :: GameState -> IO ()
+gameLoop gamestate = do
+  putStrLn $ displayRoom (currentRoom gamestate)
+  putStrLn "Enter your command:"
+  input <- getLine
+  newGameState <- processInput input gamestate
+  gameLoop newGameState
+
+-- Main function to start the game
+main :: IO ()
 main = do
-    printIntroduction
-    printInstructions
-    gameLoop
+  putStrLn "Welcome to the Text Adventure Game!"
+  displayInstructions
+  gameLoop initialGameState
