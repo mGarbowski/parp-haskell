@@ -16,6 +16,9 @@ processInput input gamestate
   | "instructions" `isPrefixOf` input = do
       displayInstructions
       return gamestate
+  | "hint" `isPrefixOf` input = do
+      putStrLn $ roomHint $ currentRoom gamestate
+      return gamestate
   | otherwise = do
       putStrLn "Invalid command. Type 'instructions' to see available commands."
       return gamestate
