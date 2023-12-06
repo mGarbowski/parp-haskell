@@ -16,7 +16,7 @@ data Room = Room {
   roomDescription :: String,
   roomHint :: String,
   roomItems :: [Item],
-  directions :: [(Direction, String)]}  -- pair (direction, name of room in that direction)
+  directions :: [(Direction, String)]}  -- pair (direction, name of room in that direction) -- todo maybe use map instead?
   deriving Show
 
 -- Function to define the initial room
