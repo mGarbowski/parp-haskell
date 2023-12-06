@@ -12,9 +12,7 @@ processInput input gamestate
   | "look" `isPrefixOf` input = return gamestate { currentRoom = (currentRoom gamestate) }
   | "inspect" `isPrefixOf` input = inspectItem (drop 8 input) gamestate
   | "take" `isPrefixOf` input = takeItem (drop 5 input) gamestate
-  | "inventory" `isPrefixOf` input = do
-      putStrLn $ "Inventory: " ++ intercalate ", " (map itemName (inventory gamestate))
-      return gamestate
+  | "inventory" `isPrefixOf` input = displayInventory gamestate
   | "instructions" `isPrefixOf` input = do
       displayInstructions
       return gamestate
@@ -54,13 +52,22 @@ takeItem name gameState =
 
     Nothing -> putStrLn "I don't see that here" >> return gameState
 
+displayInventory :: GameState -> IO GameState
+displayInventory gameState =
+  let items = inventory gameState
+      entries = map (\i -> itemName i ++ " x" ++ (show $ itemCount i)) items
+      text = intercalate "\n" entries
+  in putStrLn text >> return gameState
 
 -- helper functions
 addItemToInventory :: Item -> [Item] -> [Item]
 addItemToInventory newItem inventory =
   case find (\existingItem -> itemName existingItem == itemName newItem) inventory of
-    Just existingItem ->
-      map (\item -> if itemName item == itemName newItem then updateItemCount item (itemCount newItem) else item) inventory
+    Just _ -> map (\item ->
+      if itemName item == itemName newItem
+      then updateItemCount item (itemCount newItem)
+      else item)
+      inventory
     Nothing -> newItem : inventory
 
 -- Helper function to increase itemCount for an existing item
