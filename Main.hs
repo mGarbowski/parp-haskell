@@ -57,8 +57,7 @@ addItemToInventory :: Item -> [Item] -> [Item]
 addItemToInventory newItem inventory =
   case find (\existingItem -> itemName existingItem == itemName newItem) inventory of
     Just existingItem ->
-      let updatedInventory = map (\item -> if itemName item == itemName newItem then updateItemCount item (itemCount newItem) else item) inventory
-      in updatedInventory
+      map (\item -> if itemName item == itemName newItem then updateItemCount item (itemCount newItem) else item) inventory
     Nothing -> newItem : inventory
 
 -- Helper function to increase itemCount for an existing item

@@ -16,7 +16,7 @@ data Room = Room {
   roomDescription :: String,
   roomHint :: String,
   roomItems :: [Item],
-  directions :: [(Direction, Room)]}
+  directions :: [(Direction, String)]}  -- pair (direction, name of room in that direction)
   deriving Show
 
 -- Function to define the initial room
@@ -26,7 +26,7 @@ initialRoom = Room {
   roomDescription = "You find yourself in a dimly lit room.",
   roomHint = "Try to look around and take some items.",
   roomItems = [key, note],
-  directions = [(North, secondRoom)]
+  directions = [(North, roomName secondRoom)]
   }
 
 secondRoom :: Room
@@ -35,7 +35,7 @@ secondRoom = Room {
   roomDescription = "You moved to another room.",
   roomHint = "Try to go back.",
   roomItems = [],
-  directions = [(South, initialRoom)]
+  directions = [(South, roomName initialRoom)]
   }
 
 
