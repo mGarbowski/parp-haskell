@@ -78,6 +78,7 @@ gameLoop gamestate = do
   putStrLn "Enter your command:"
   putStr "> "
   input <- getLine
+  putStrLn ""
   newGameState <- processInput input gamestate
   gameLoop newGameState
 
