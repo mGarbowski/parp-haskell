@@ -16,11 +16,12 @@ processInput input gamestate
   | "instructions" `isPrefixOf` input = do
       displayInstructions
       return gamestate
-  | "hint" `isPrefixOf` input = do
+  | "hint" `isPrefixOf` input = do  -- todo also handle hints for items
       putStrLn $ roomHint $ currentRoom gamestate
       return gamestate
   | "go" `isPrefixOf` input = moveDirection (drop 3 input) gamestate
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
+  -- todo open, unlock, enter, power on, put on
 
 -- TODO move to appropriate file
 -- Function to inspect an item in the current room
