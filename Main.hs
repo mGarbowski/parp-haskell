@@ -28,7 +28,10 @@ processInput input gamestate
 -- Function to inspect an item in the current room
 inspectItem :: String -> GameState -> IO GameState
 inspectItem name gamestate =
-  case find (\item -> itemName item == name) ((roomItems (currentRoom gamestate)) ++ inventory gamestate) of
+  let itemsInRoom = roomItems (currentRoom gamestate)
+      inventoryItems = inventory gamestate
+      inspectableItems = itemsInRoom ++ inventoryItems
+  in case find (\item -> itemName item == name) inspectableItems of
     Just item -> (putStrLn $ itemDescription item) >> return gamestate
     Nothing -> putStrLn "I don't see that here" >> return gamestate
 
