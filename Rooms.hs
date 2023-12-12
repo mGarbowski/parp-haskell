@@ -2,6 +2,7 @@ module Rooms where
 import Data.List
 import qualified Data.Map as Map
 import Items
+import Interactables
 
 data Direction = North | South | West | East deriving (Eq, Ord, Show)
 
@@ -17,6 +18,7 @@ data Room = Room {
   roomDescription :: String,
   roomHint :: String,
   roomItems :: [Item],
+  interactables :: [Interactable],
   directions :: Map.Map Direction (String, Bool) -- mapping direction to adjacent room's name and Bool whether path is unlocked
   }
   deriving Show
@@ -37,6 +39,7 @@ lockerRoom = Room {
                     "To the east, you see another door with no labels as to where it leads\n",
   roomHint = "You can interact with the locker, go north or go east, use `examine north door` to get more information.",
   roomItems = [lockerRoomKey, coat, labShoes],
+  interactables = [keypad],
   directions = Map.fromList [
     (East, ("Corridor One", False)),
     (North, ("Security Room", False))
@@ -53,6 +56,7 @@ securityRoom = Room {
                     "suggesting a pivotal role in the functionality of the facility.\n",
   roomHint = "You can interact with the control panel or go south",
   roomItems = [],
+  interactables = [controlPanel],
   directions = Map.fromList [
     (South, ("Locker Room", True))
   ]
@@ -67,6 +71,7 @@ corridorOne = Room {
                     "The western door leads to the locker room.\n",
   roomHint = "You can go west, north, south",
   roomItems = [],
+  interactables = [],
   directions = Map.fromList [
     (West, ("Locker Room", True)),
     (North, ("Generator Room", True)),
@@ -82,6 +87,7 @@ corridorTwo = Room {
                     "To the east - a locked door guards more secrets.\n",
   roomHint = "You can go north, east, west",
   roomItems = [],
+  interactables = [],
   directions = Map.fromList [
     (North, ("Corridor One", True)),
     (East, ("Computer Room", False)),
@@ -100,6 +106,7 @@ generatorRoom = Room {
                     "fit through.\n",
   roomHint = "You can interact with generator, vent or go south",
   roomItems = [],
+  interactables = [generator, ventEntrance],
   directions = Map.fromList [
     (South, ("Corridor One", True))
   ]
@@ -112,6 +119,7 @@ exitRoom = Room {
                     "Finally, a way out of this maze!\n",
   roomHint = "You can interact with vent and elevator",
   roomItems = [powerCell],
+  interactables = [elevator, ventEntrance],
   directions = Map.fromList []
 }
 
@@ -126,6 +134,7 @@ experimentRoom = Room {
   roomHint = "You need to acquire some protective gear to walk through the toxic sludge.\n" ++
              "You can interact with tool chest and broken door\n",
   roomItems = [crowbar, powerCell],
+  interactables = [brokenDoor],
   directions = Map.fromList [
     (East, ("Corridor Two", True))
   ]
@@ -141,6 +150,7 @@ computerRoom = Room {
                     "To the west there is a door locked from this side\n",
   roomHint = "You can interact with: computer, desk, vent or try the door to the west",
   roomItems = [],
+  interactables = [computer, desk, ventEntrance],
   directions = Map.fromList [
     (West, ("Corridor Two", False))
   ]
@@ -152,6 +162,7 @@ vent = Room {
   roomDescription = "You are in the vent shaft. You can proceed east, south or north",
   roomHint = "You can proceed east, south or north",
   roomItems = [],
+  interactables = [],
   directions = Map.fromList [
     (East, ("Exit Room", True)),
     (North, ("Generator Room", True)),

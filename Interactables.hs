@@ -6,7 +6,7 @@ data Interactable = Interactable {
   name :: String,
   description :: String,
   hint :: String
-}
+} deriving Show
 
 -- tool chest ?
 -- locker ?
@@ -80,7 +80,8 @@ desk = Interactable {
   hint = "just google it"
 }
 
-keypad :: Interactable {
+keypad :: Interactable
+keypad = Interactable{
   name = "keypad",
   description = "A modern keypad, mounted beside the security room door, stands as the gateway to the lab.\n" ++
                 "It features a digital touchscreen with a numeric grid and softly backlit keys.\n" ++
