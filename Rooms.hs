@@ -6,6 +6,12 @@ import Interactables
 
 data Direction = North | South | West | East deriving (Eq, Ord, Show)
 
+opposite :: Direction -> Direction
+opposite North = South
+opposite South = North
+opposite East = West
+opposite West = East
+
 parseDirection :: String -> Maybe Direction
 parseDirection "north" = Just North
 parseDirection "south" = Just South
@@ -73,7 +79,7 @@ corridorOne = Room {
   roomItems = [],
   interactables = [],
   directions = Map.fromList [
-    (West, ("Locker Room", True)),
+    (West, ("Locker Room", False)),
     (North, ("Generator Room", True)),
     (South, ("Corridor Two", True))
   ]
