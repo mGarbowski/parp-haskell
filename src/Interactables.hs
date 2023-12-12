@@ -6,7 +6,7 @@ data Interactable = Interactable {
   name :: String,
   description :: String,
   hint :: String
-} deriving Show
+} deriving (Show, Eq)
 
 -- tool chest ?
 -- locker ?
