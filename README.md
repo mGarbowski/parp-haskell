@@ -9,5 +9,6 @@ cabal install haskeline
 
 ## Uruchomienie gry
 ```shell
+cd src
 runhaskell Main.hs
 ```
