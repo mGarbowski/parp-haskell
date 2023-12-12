@@ -146,5 +146,17 @@ computerRoom = Room {
   ]
 }
 
+vent :: Room
+vent = Room {
+  roomName = "Ventilation Shaft",
+  roomDescription = "You are in the vent shaft. You can proceed east, south or north",
+  roomHint = "You can proceed east, south or north",
+  roomItems = [],
+  directions = Map.fromList [
+    (East, ("Exit Room", True)),
+    (North, ("Generator Room", True)),
+    (South, ("Computer Room", True))
+  ]
+}
+
 -- todo take descriptions outside of Room objects as they depend on GameState in the prolog version
--- todo add vent as a Room

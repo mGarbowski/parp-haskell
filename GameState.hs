@@ -22,6 +22,7 @@ initialGameState = GameState {
       (roomName experimentRoom, experimentRoom),
       (roomName generatorRoom, generatorRoom),
       (roomName computerRoom, computerRoom),
+      (roomName vent, vent),
       (roomName exitRoom, exitRoom)
     ]
   }
