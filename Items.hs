@@ -50,4 +50,14 @@ labShoes = Item {
   itemCount = 1
 }
 
+smallKey :: Item
+smallKey = Item {
+  itemName = "small key",
+  itemDescription = "A small key, does not match the size of the keyholes in any of the doors you have seen so far.\n" ++
+                    "It must open something smaller like a...",
+  itemHint = "Use it to unlock the locker compartment"
+}
+
+
 -- todo make item descriptions conditional as they depend on gameState
+-- todo unify Item and Interactable interface, store the number of held items in the inventory or sth
