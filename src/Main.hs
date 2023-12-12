@@ -11,6 +11,7 @@ import Commands.Inventory
 import Commands.Hint
 import Commands.Inspect
 import Commands.EnterVent
+import Commands.EnterKeycode
 import qualified Data.Map as Map
 
 -- Function to process player input and update game state
@@ -26,9 +27,10 @@ processInput input gamestate
   | "go" `isPrefixOf` input            = moveDirection (drop 3 input) gamestate
   | "unlock" `isPrefixOf` input        = handleUnlock (drop 7 input) gamestate
   | "enter vent" == input              = tryEnterVent gamestate
+  | "enter keypad" `isPrefixOf` input  = tryEnterKeycode (drop 13 input) gamestate
   | "computer" `isPrefixOf` input      = runComputer >> return gamestate -- todo remove this
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
-  -- todo open, enter, power on, put on
+  -- todo open, power on, put on
 
 -- Function to run the game loop
 gameLoop :: GameState -> IO ()
