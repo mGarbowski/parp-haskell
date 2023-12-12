@@ -28,18 +28,18 @@ processInput input gamestate
 -- TODO move to appropriate file
 -- Function to inspect an item in the current room
 inspectItem :: String -> GameState -> IO GameState
-inspectItem name gamestate =
+inspectItem itemName gamestate =
   let itemsInRoom = roomItems (currentRoom gamestate)
       inventoryItems = inventory gamestate
       inspectableItems = itemsInRoom ++ inventoryItems
-  in case find (\item -> itemName item == name) inspectableItems of
-    Just item -> (putStrLn $ itemDescription item) >> return gamestate
+  in case find (\item -> name item == itemName) inspectableItems of
+    Just item -> (putStrLn $ description item) >> return gamestate
     Nothing -> putStrLn "I don't see that here" >> return gamestate
 
 -- Function to take an item from the current room and add it to the inventory
 takeItem :: String -> GameState -> IO GameState
-takeItem name gameState =
-  case find (\item -> itemName item == name) (roomItems (currentRoom gameState)) of
+takeItem itemName gameState =
+  case find (\item -> name item == itemName) (roomItems (currentRoom gameState)) of
     Just item -> do
       let currentInventory = inventory gameState
       let updatedInventory = addItemToInventory item currentInventory
@@ -58,29 +58,29 @@ takeItem name gameState =
 displayInventory :: GameState -> IO GameState
 displayInventory gameState =
   let items = inventory gameState
-      entries = map (\i -> itemName i ++ " x" ++ (show $ itemCount i)) items
+      entries = map (\i -> name i ++ " x" ++ (show $ count i)) items
       text = intercalate "\n" entries
   in putStrLn text >> return gameState
 
 -- helper functions
 addItemToInventory :: Item -> [Item] -> [Item]
 addItemToInventory newItem inventory =
-  case find (\existingItem -> itemName existingItem == itemName newItem) inventory of
+  case find (\existingItem -> name existingItem == name newItem) inventory of
     Just _ -> map (\item ->
-      if itemName item == itemName newItem
-      then updateItemCount item (itemCount newItem)
+      if name item == name newItem
+      then updateItemCount item (count newItem)
       else item)
       inventory
     Nothing -> newItem : inventory
 
--- Helper function to increase itemCount for an existing item
+-- Helper function to increase count for an existing item
 updateItemCount :: Item -> Int -> Item
-updateItemCount item count = item { itemCount = itemCount item + count }
+updateItemCount item val = item { count = count item + val }
 
 removeItemFromRoom :: Item -> Room -> Room
 removeItemFromRoom item room =
   let prevItems = roomItems room
-      newItems = filter (\i -> itemName i /= itemName item) prevItems
+      newItems = filter (\i -> name i /= name item) prevItems
   in room {roomItems = newItems}
 
 

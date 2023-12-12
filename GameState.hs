@@ -12,10 +12,17 @@ data GameState = GameState {
 -- Function to initialize the game state
 initialGameState :: GameState
 initialGameState = GameState {
-  currentRoom = initialRoom,
+  currentRoom = lockerRoom,
   inventory = [],
   roomStates = Map.fromList [
-    (roomName initialRoom, initialRoom),
-    (roomName secondRoom, secondRoom)
+      (roomName lockerRoom, lockerRoom),
+      (roomName corridorOne, corridorOne),
+      (roomName corridorTwo, corridorTwo),
+      (roomName securityRoom, securityRoom),
+      (roomName experimentRoom, experimentRoom),
+      (roomName generatorRoom, generatorRoom),
+      (roomName computerRoom, computerRoom),
+      (roomName vent, vent),
+      (roomName exitRoom, exitRoom)
     ]
   }
