@@ -50,4 +50,3 @@ smallKey = Interactable {
 
 
 -- todo make item descriptions conditional as they depend on gameState
--- todo unify Item and Interactable interface, store the number of held items in the inventory or sth

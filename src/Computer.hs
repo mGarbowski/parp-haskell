@@ -8,7 +8,7 @@ import System.Console.Haskeline
 
 type Command = String
 
-runComputer :: IO () -- todo: check room in gamestate before running
+runComputer :: IO ()
 runComputer = do
     execCommandLoop
 
