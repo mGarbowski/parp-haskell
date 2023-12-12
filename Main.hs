@@ -38,6 +38,8 @@ handleUnlock directionStr gameState = -- todo check if the player has the key et
 -- direction, current room name, game state, can player unlock door in `direction` from current room
 canUnlock :: Direction -> String -> GameState -> Bool
 canUnlock East "Locker Room" gameState = Map.member (name lockerRoomKey) (inventory gameState)
+canUnlock North "Locker Room" gameState = keycodeEntered gameState
+canUnlock West "Computer Room" _ = True
 canUnlock _ _ _ = False
 
 -- update game state to make the path in given direction unlocked in both ways
