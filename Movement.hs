@@ -6,8 +6,9 @@ import qualified Data.Map as Map
 moveDirection :: String -> GameState -> IO GameState
 moveDirection directionStr gameState = case parseDirection directionStr of
   Just direction ->
-    case lookup direction (directions (currentRoom gameState)) of
-      Just otherRoomName -> tryMove otherRoomName
+    case Map.lookup direction (directions (currentRoom gameState)) of
+      Just (otherRoomName, False) -> handlePathLocked
+      Just (otherRoomName, True) -> tryMove otherRoomName
       Nothing -> handleNoPathInThisDirection
   Nothing -> handleInvalidDirection
   where
@@ -16,3 +17,4 @@ moveDirection directionStr gameState = case parseDirection directionStr of
       _ -> return gameState
     handleInvalidDirection = putStrLn "You can go north, south, east, or west" >> return gameState
     handleNoPathInThisDirection = putStrLn "You can't go that way" >> return gameState
+    handlePathLocked = putStrLn "This path is locked" >> return gameState

@@ -1,8 +1,9 @@
 module Rooms where
 import Data.List
+import qualified Data.Map as Map
 import Items
 
-data Direction = North | South | West | East deriving (Eq, Show)
+data Direction = North | South | West | East deriving (Eq, Ord, Show)
 
 parseDirection :: String -> Maybe Direction
 parseDirection "north" = Just North
@@ -16,7 +17,8 @@ data Room = Room {
   roomDescription :: String,
   roomHint :: String,
   roomItems :: [Item],
-  directions :: [(Direction, String)]}  -- pair (direction, name of room in that direction) -- todo maybe use map instead?
+  directions :: Map.Map Direction (String, Bool) -- mapping direction to adjacent room's name and Bool whether path is unlocked
+  }
   deriving Show
 
 -- Function to define the initial room
@@ -26,7 +28,9 @@ initialRoom = Room {
   roomDescription = "You find yourself in a dimly lit room.",
   roomHint = "Try to look around and take some items.",
   roomItems = [key, note],
-  directions = [(North, roomName secondRoom)]
+  directions = Map.fromList [
+    (North, (roomName secondRoom, True))
+    ]
   }
 
 secondRoom :: Room
@@ -35,7 +39,9 @@ secondRoom = Room {
   roomDescription = "You moved to another room.",
   roomHint = "Try to go back.",
   roomItems = [],
-  directions = [(South, roomName initialRoom)]
+  directions = Map.fromList [
+    (South, (roomName initialRoom, False))
+    ]
   }
 
 
