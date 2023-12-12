@@ -30,7 +30,15 @@ handleUnlock :: String -> GameState -> IO GameState
 handleUnlock directionStr gameState = -- todo check if the player has the key etc.
   case parseDirection directionStr of
     Nothing -> return gameState
-    Just direction -> return (unlockPath direction gameState)
+    Just direction ->
+      if canUnlock direction (roomName $ currentRoom gameState) gameState
+      then putStrLn "Door unlocked" >> return (unlockPath direction gameState)
+      else putStrLn "You can't open it" >> return gameState
+
+-- direction, current room name, game state, can player unlock door in `direction` from current room
+canUnlock :: Direction -> String -> GameState -> Bool
+canUnlock East "Locker Room" gameState = Map.member (name lockerRoomKey) (inventory gameState)
+canUnlock _ _ _ = False
 
 -- update game state to make the path in given direction unlocked in both ways
 unlockPath :: Direction -> GameState -> GameState
