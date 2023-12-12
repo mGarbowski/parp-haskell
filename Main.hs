@@ -26,7 +26,7 @@ processInput input gamestate
   | "unlock" `isPrefixOf` input        = handleUnlock (drop 7 input) gamestate
   | "computer" `isPrefixOf` input      = runComputer >> return gamestate -- todo remove this
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
-  -- todo open, unlock, enter, power on, put on
+  -- todo open, enter, power on, put on
 
 -- Function to run the game loop
 gameLoop :: GameState -> IO ()
