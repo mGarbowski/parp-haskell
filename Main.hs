@@ -4,6 +4,7 @@ import Rooms
 import GameState
 import Movement
 import Items
+import Interactables
 import Computer
 import qualified Data.Map as Map
 
@@ -11,30 +12,52 @@ import qualified Data.Map as Map
 processInput :: String -> GameState -> IO GameState
 processInput input gamestate
   | "look" `isPrefixOf` input = return gamestate { currentRoom = (currentRoom gamestate) }
-  | "inspect" `isPrefixOf` input = inspectItem (drop 8 input) gamestate
+--  | "inspect" `isPrefixOf` input = inspectItem (drop 8 input) gamestate
   | "take" `isPrefixOf` input = takeItem (drop 5 input) gamestate
   | "inventory" `isPrefixOf` input = displayInventory gamestate
   | "instructions" `isPrefixOf` input = do
       displayInstructions
       return gamestate
-  | "hint" `isPrefixOf` input = do  -- todo also handle hints for items
-      putStrLn $ roomHint $ currentRoom gamestate
-      return gamestate
+  | "hint here" == input = displayHintForCurrentRoom gamestate
+--  | "hint" `isPrefixOf` input = handleHint (drop 5 input) gamestate
   | "go" `isPrefixOf` input = moveDirection (drop 3 input) gamestate
   | "computer" `isPrefixOf` input = runComputer >> return gamestate -- todo remove this
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
   -- todo open, unlock, enter, power on, put on
 
 -- TODO move to appropriate file
--- Function to inspect an item in the current room
-inspectItem :: String -> GameState -> IO GameState
-inspectItem itemName gamestate =
-  let itemsInRoom = roomItems (currentRoom gamestate)
-      inventoryItems = inventory gamestate
-      inspectableItems = itemsInRoom ++ inventoryItems
-  in case find (\item -> name item == itemName) inspectableItems of
-    Just item -> (putStrLn $ description item) >> return gamestate
-    Nothing -> putStrLn "I don't see that here" >> return gamestate
+-- display hint for appropriate entity
+--handleHint :: String -> GameState -> IO GameState
+displayHintForCurrentRoom :: GameState -> IO GameState
+displayHintForCurrentRoom gameState =
+  let room = currentRoom gameState
+      hintText = roomHint room
+  in putStrLn hintText >> return gameState
+
+--displayHintForInventoryItem :: String -> GameState -> IO GameState
+--displayHintForInventoryItem itemName gameState =
+--  case find (\item -> name item == itemName) (inventory gameState) of
+--    Just item -> putStrLn (hint item) >> return gameState
+--    _ -> return gameState
+--
+--
+---- Function to inspect an item in the current room
+--inspectItem :: String -> GameState -> IO GameState
+--inspectItem itemName gamestate =
+--  let itemsInRoom = roomItems (currentRoom gamestate)
+--      inventoryItems = inventory gamestate
+--      inspectableItems = itemsInRoom ++ inventoryItems
+--  in case find (\item -> name item == itemName) inspectableItems of
+--    Just item -> (putStrLn $ description item) >> return gamestate
+--    Nothing -> putStrLn "I don't see that here" >> return gamestate
+--
+
+displayInventory :: GameState -> IO GameState
+displayInventory gameState =
+  let pairs = Map.elems (inventory gameState)
+      lines = map (\(item, count) -> "- " ++ name item ++ " x" ++ show count) pairs
+      text = intercalate "\n" lines
+  in putStrLn text >> return gameState
 
 -- Function to take an item from the current room and add it to the inventory
 takeItem :: String -> GameState -> IO GameState
@@ -52,32 +75,18 @@ takeItem itemName gameState =
         inventory = updatedInventory,
         roomStates = updatedRoomStates
       }
-
     Nothing -> putStrLn "I don't see that here" >> return gameState
 
-displayInventory :: GameState -> IO GameState
-displayInventory gameState =
-  let items = inventory gameState
-      entries = map (\i -> name i ++ " x" ++ (show $ count i)) items
-      text = intercalate "\n" entries
-  in putStrLn text >> return gameState
 
 -- helper functions
-addItemToInventory :: Item -> [Item] -> [Item]
+addItemToInventory :: Interactable -> Map.Map String (Interactable, Int) -> Map.Map String (Interactable, Int)
 addItemToInventory newItem inventory =
-  case find (\existingItem -> name existingItem == name newItem) inventory of
-    Just _ -> map (\item ->
-      if name item == name newItem
-      then updateItemCount item (count newItem)
-      else item)
-      inventory
-    Nothing -> newItem : inventory
+  case Map.lookup (name newItem) inventory of
+    Just (i, count) -> Map.insert (name newItem) (newItem, count+1) inventory
+    Nothing -> Map.insert (name newItem) (newItem, 1) inventory
 
--- Helper function to increase count for an existing item
-updateItemCount :: Item -> Int -> Item
-updateItemCount item val = item { count = count item + val }
 
-removeItemFromRoom :: Item -> Room -> Room
+removeItemFromRoom :: Interactable -> Room -> Room
 removeItemFromRoom item room =
   let prevItems = roomItems room
       newItems = filter (\i -> name i /= name item) prevItems

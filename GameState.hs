@@ -1,11 +1,11 @@
 module GameState where
 import Rooms
-import Items
+import Interactables
 import qualified Data.Map as Map
 
 data GameState = GameState {
   currentRoom :: Room,
-  inventory :: [Item],
+  inventory :: Map.Map String (Interactable, Int),  -- mapping item name to item object and count
   roomStates :: Map.Map String Room
   }
 
@@ -13,7 +13,7 @@ data GameState = GameState {
 initialGameState :: GameState
 initialGameState = GameState {
   currentRoom = lockerRoom,
-  inventory = [],
+  inventory = Map.empty,
   roomStates = Map.fromList [
       (roomName lockerRoom, lockerRoom),
       (roomName corridorOne, corridorOne),

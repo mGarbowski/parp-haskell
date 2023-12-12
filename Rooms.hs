@@ -17,7 +17,7 @@ data Room = Room {
   roomName :: String,
   roomDescription :: String,
   roomHint :: String,
-  roomItems :: [Item],
+  roomItems :: [Interactable],
   interactables :: [Interactable],
   directions :: Map.Map Direction (String, Bool) -- mapping direction to adjacent room's name and Bool whether path is unlocked
   }
@@ -25,7 +25,7 @@ data Room = Room {
 
 -- Function to display the current room description and items
 displayRoom :: Room -> String
-displayRoom room = roomDescription room ++ "\nItems in the room: " ++ intercalate ", " (map Items.name (roomItems room))
+displayRoom room = roomDescription room ++ "\nItems in the room: " ++ intercalate ", " (map name (roomItems room))
 
 -- Function to define the initial room
 lockerRoom :: Room
