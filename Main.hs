@@ -6,6 +6,7 @@ import Movement
 import Items
 import Interactables
 import Computer
+import Unlock
 import qualified Data.Map as Map
 
 -- Function to process player input and update game state
@@ -26,46 +27,7 @@ processInput input gamestate
 
 -- TODO move to appropriate file
 
-handleUnlock :: String -> GameState -> IO GameState
-handleUnlock directionStr gameState = -- todo check if the player has the key etc.
-  case parseDirection directionStr of
-    Nothing -> return gameState
-    Just direction ->
-      if canUnlock direction (roomName $ currentRoom gameState) gameState
-      then putStrLn "Door unlocked" >> return (unlockPath direction gameState)
-      else putStrLn "You can't open it" >> return gameState
 
--- direction, current room name, game state, can player unlock door in `direction` from current room
-canUnlock :: Direction -> String -> GameState -> Bool
-canUnlock East "Locker Room" gameState = Map.member (name lockerRoomKey) (inventory gameState)
-canUnlock North "Locker Room" gameState = keycodeEntered gameState
-canUnlock West "Computer Room" _ = True
-canUnlock _ _ _ = False
-
--- update game state to make the path in given direction unlocked in both ways
-unlockPath :: Direction -> GameState -> GameState
-unlockPath direction gameState =
-  let thisRoom = currentRoom gameState
-      rooms = (roomStates gameState)
-  in case Map.lookup direction (directions thisRoom) of
-    Nothing -> gameState
-    Just (otherRoomName, _) -> case Map.lookup otherRoomName rooms of
-      Nothing -> gameState
-      Just otherRoom ->
-        let newThisRoom = unlockPathInRoom direction thisRoom
-            newOtherRoom = unlockPathInRoom (opposite direction) otherRoom
-            roomsWithThis = Map.insert (roomName newThisRoom) newThisRoom rooms
-            roomsWithBoth = Map.insert (roomName newOtherRoom) newOtherRoom roomsWithThis
-        in gameState {currentRoom = newThisRoom, roomStates = roomsWithBoth}
-
-
-unlockPathInRoom :: Direction -> Room -> Room
-unlockPathInRoom direction room =
-  case Map.lookup direction (directions room) of
-    Nothing -> room
-    Just (otherRoomName, _) ->
-      let newDirections = Map.insert direction (otherRoomName, True) (directions room)
-      in room {directions = newDirections}
 
 -- Helper function returning list of all objects that the player can interact with
 allInteractables :: GameState -> [Interactable]
