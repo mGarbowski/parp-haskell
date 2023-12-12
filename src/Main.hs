@@ -32,7 +32,6 @@ processInput input gamestate
   | "power on computer" == input       = tryPowerOnComputer gamestate
   | "power on generator" == input      = tryPowerOnGenerator gamestate
   | "power on elevator" == input       = tryPowerOnElevator gamestate
-  | "computer" `isPrefixOf` input      = runComputer >> return gamestate -- todo remove this
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
   -- todo open, power on, put on, enter elevator
 
