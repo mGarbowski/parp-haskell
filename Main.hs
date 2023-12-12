@@ -8,6 +8,8 @@ import Interactables
 import Computer
 import Unlock
 import Inventory
+import Hint
+import Inspect
 import qualified Data.Map as Map
 
 -- Function to process player input and update game state
@@ -25,41 +27,6 @@ processInput input gamestate
   | "computer" `isPrefixOf` input      = runComputer >> return gamestate -- todo remove this
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
   -- todo open, unlock, enter, power on, put on
-
--- TODO move to appropriate file
-
-
-
--- Helper function returning list of all objects that the player can interact with
-allInteractables :: GameState -> [Interactable]
-allInteractables gameState =
-  let inventoryItems = map fst (Map.elems (inventory gameState))
-      itemsInRoom = roomItems $ currentRoom gameState
-      roomInteractables = interactables $ currentRoom gameState
-  in inventoryItems ++ itemsInRoom ++ roomInteractables
-
-displayHintForCurrentRoom :: GameState -> IO GameState
-displayHintForCurrentRoom gameState =
-  let room = currentRoom gameState
-      hintText = roomHint room
-  in putStrLn hintText >> return gameState
-
-displayHintForInteractable :: String -> GameState -> IO GameState
-displayHintForInteractable entityName gameState = do
-  case find (\i -> name i == entityName) (allInteractables gameState) of
-    Just entity -> putStrLn (hint entity)
-    _ -> putStrLn "I don't see that here"
-  return gameState
-
-handleInspect :: String -> GameState -> IO GameState
-handleInspect entityName gameState = do
-  case find (\i -> name i == entityName) (allInteractables gameState) of
-    Just entity -> (putStrLn $ description entity)
-    _ -> putStrLn "I don't see that here"
-  return gameState
-
-
-
 
 -- Function to run the game loop
 gameLoop :: GameState -> IO ()

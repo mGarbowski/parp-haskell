@@ -28,3 +28,11 @@ initialGameState = GameState {
   ],
   keycodeEntered = False
 }
+
+-- Helper function returning list of all objects that the player can interact with
+allInteractables :: GameState -> [Interactable]
+allInteractables gameState =
+  let inventoryItems = map fst (Map.elems (inventory gameState))
+      itemsInRoom = roomItems $ currentRoom gameState
+      roomInteractables = interactables $ currentRoom gameState
+  in inventoryItems ++ itemsInRoom ++ roomInteractables
