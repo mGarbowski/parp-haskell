@@ -8,7 +8,9 @@ data GameState = GameState {
   inventory :: Map.Map String (Interactable, Int),  -- mapping item name to item object and count
   roomStates :: Map.Map String Room,
   keycodeEntered :: Bool,
-  ventBlocked :: Bool
+  ventBlocked :: Bool,
+  generatorOn :: Bool,
+  elevatorOn :: Bool
 }
 
 -- Function to initialize the game state
@@ -28,7 +30,9 @@ initialGameState = GameState {
     (roomName exitRoom, exitRoom)
   ],
   keycodeEntered = False,
-  ventBlocked = True
+  ventBlocked = True,
+  generatorOn = False,
+  elevatorOn = False
 }
 
 -- Helper function returning list of all objects that the player can interact with
