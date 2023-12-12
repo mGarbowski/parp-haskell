@@ -15,8 +15,13 @@ initialGameState = GameState {
   currentRoom = lockerRoom,
   inventory = [],
   roomStates = Map.fromList [
-    (roomName lockerRoom, lockerRoom),
-    (roomName corridorOne, corridorOne),
-    (roomName securityRoom, securityRoom)
+      (roomName lockerRoom, lockerRoom),
+      (roomName corridorOne, corridorOne),
+      (roomName corridorTwo, corridorTwo),
+      (roomName securityRoom, securityRoom),
+      (roomName experimentRoom, experimentRoom),
+      (roomName generatorRoom, generatorRoom),
+      (roomName computerRoom, computerRoom),
+      (roomName exitRoom, exitRoom)
     ]
   }
