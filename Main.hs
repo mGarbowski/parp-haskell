@@ -21,6 +21,7 @@ processInput input gamestate
       putStrLn $ roomHint $ currentRoom gamestate
       return gamestate
   | "go" `isPrefixOf` input = moveDirection (drop 3 input) gamestate
+  | "computer" `isPrefixOf` input = runComputer >> return gamestate -- todo remove this
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
   -- todo open, unlock, enter, power on, put on
 
