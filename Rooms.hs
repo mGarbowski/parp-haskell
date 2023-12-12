@@ -38,7 +38,7 @@ lockerRoom = Room {
   roomHint = "You can interact with the locker, go north or go east, use `examine north door` to get more information.",
   roomItems = [],
   directions = Map.fromList [
-    (East, ("Corridor One", True)),
+    (East, ("Corridor One", False)),
     (North, ("Security Room", False))
     ]
   }
@@ -68,7 +68,9 @@ corridorOne = Room {
   roomHint = "You can go west, north, south",
   roomItems = [],
   directions = Map.fromList [
-    (West, ("Locker Room", True)) -- todo
+    (West, ("Locker Room", True)),
+    (North, ("Generator Room", True)),
+    (South, ("Corridor Two", True))
   ]
 }
 
@@ -81,7 +83,9 @@ corridorTwo = Room {
   roomHint = "You can go north, east, west",
   roomItems = [],
   directions = Map.fromList [
-    (West, ("Locker Room", True)) -- todo
+    (North, ("Corridor One", True)),
+    (East, ("Computer Room", False)),
+    (West, ("Experiment Room", True))
   ]
 }
 
@@ -96,7 +100,9 @@ generatorRoom = Room {
                     "fit through.\n",
   roomHint = "You can interact with generator, vent or go south",
   roomItems = [],
-  directions = Map.fromList [] -- todo
+  directions = Map.fromList [
+    (South, ("Corridor One", True))
+  ]
 }
 
 exitRoom :: Room
@@ -106,7 +112,7 @@ exitRoom = Room {
                     "Finally, a way out of this maze!\n",
   roomHint = "You can interact with vent and elevator",
   roomItems = [],
-  directions = Map.fromList [] -- todo
+  directions = Map.fromList []
 }
 
 experimentRoom :: Room
@@ -120,7 +126,9 @@ experimentRoom = Room {
   roomHint = "You need to acquire some protective gear to walk through the toxic sludge.\n" ++
              "You can interact with tool chest and broken door\n",
   roomItems = [],
-  directions = Map.fromList [] -- todo
+  directions = Map.fromList [
+    (East, ("Corridor Two", True))
+  ]
 }
 
 computerRoom :: Room
@@ -133,7 +141,10 @@ computerRoom = Room {
                     "To the west there is a door locked from this side\n",
   roomHint = "You can interact with: computer, desk, vent or try the door to the west",
   roomItems = [],
-  directions = Map.fromList [] -- todo
+  directions = Map.fromList [
+    (West, ("Corridor Two", False))
+  ]
 }
 
 -- todo take descriptions outside of Room objects as they depend on GameState in the prolog version
+-- todo add vent as a Room
