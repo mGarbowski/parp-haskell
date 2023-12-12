@@ -7,8 +7,7 @@ import Commands.Movement
 import Commands.Inventory
 import Commands.Hint
 import Commands.Inspect
-import Commands.EnterVent
-import Commands.EnterKeycode
+import Commands.Enter
 import Commands.PowerOn
 import qualified Data.Map as Map
 
