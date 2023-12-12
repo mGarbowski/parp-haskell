@@ -1,4 +1,4 @@
-module Hint where
+module Commands.Hint where
 import Data.List
 import GameState
 import Interactables

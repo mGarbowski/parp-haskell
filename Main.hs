@@ -1,15 +1,15 @@
 import Data.List
-import Instructions
 import Rooms
 import GameState
-import Movement
 import Items
 import Interactables
 import Computer
-import Unlock
-import Inventory
-import Hint
-import Inspect
+import Commands.Instructions
+import Commands.Unlock
+import Commands.Movement
+import Commands.Inventory
+import Commands.Hint
+import Commands.Inspect
 import qualified Data.Map as Map
 
 -- Function to process player input and update game state

@@ -1,4 +1,4 @@
-module Inspect where
+module Commands.Inspect where
 import Data.List
 import GameState
 import Interactables

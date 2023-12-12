@@ -1,4 +1,4 @@
-module Movement where
+module Commands.Movement where
 import GameState
 import Rooms
 import qualified Data.Map as Map

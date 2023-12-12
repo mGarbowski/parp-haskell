@@ -1,4 +1,4 @@
-module Instructions where
+module Commands.Instructions where
 
 -- Function to display available instructions
 displayInstructions :: IO ()

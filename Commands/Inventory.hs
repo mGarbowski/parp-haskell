@@ -1,4 +1,4 @@
-module Inventory where
+module Commands.Inventory where
 import qualified Data.Map as Map
 import Data.List
 import GameState

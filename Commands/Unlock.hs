@@ -1,4 +1,4 @@
-module Unlock where
+module Commands.Unlock where
 import qualified Data.Map as Map
 import GameState
 import Rooms
