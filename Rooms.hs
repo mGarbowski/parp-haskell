@@ -36,7 +36,7 @@ lockerRoom = Room {
                     "To the north, a heavy metal door labeled \"Security\" presents itself to you\n" ++
                     "To the east, you see another door with no labels as to where it leads\n",
   roomHint = "You can interact with the locker, go north or go east, use `examine north door` to get more information.",
-  roomItems = [],
+  roomItems = [lockerRoomKey, coat, labShoes],
   directions = Map.fromList [
     (East, ("Corridor One", False)),
     (North, ("Security Room", False))
@@ -111,7 +111,7 @@ exitRoom = Room {
   roomDescription = "As you're crawling out of the ventilation shaft, you notice an elevator.\n" ++
                     "Finally, a way out of this maze!\n",
   roomHint = "You can interact with vent and elevator",
-  roomItems = [],
+  roomItems = [powerCell],
   directions = Map.fromList []
 }
 
@@ -125,7 +125,7 @@ experimentRoom = Room {
                     "The broken door is laying next to where you stand.\n",
   roomHint = "You need to acquire some protective gear to walk through the toxic sludge.\n" ++
              "You can interact with tool chest and broken door\n",
-  roomItems = [],
+  roomItems = [crowbar, powerCell],
   directions = Map.fromList [
     (East, ("Corridor Two", True))
   ]
@@ -160,3 +160,4 @@ vent = Room {
 }
 
 -- todo take descriptions outside of Room objects as they depend on GameState in the prolog version
+-- handle Items being in containers

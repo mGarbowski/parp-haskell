@@ -2,23 +2,52 @@ module Items where
 
 data Item = Item {
   itemName :: String,
+  itemDescription :: String,
   itemHint :: String,
-  itemCount :: Int,
-  itemDescription :: String
+  itemCount :: Int
 } deriving Show
 
-key :: Item
-key = Item {
-  itemName = "Key",
-  itemHint = "you can use this to open doors",
-  itemCount = 1,
-  itemDescription = "A small, metal key"
+lockerRoomKey :: Item
+lockerRoomKey = Item {
+  itemName = "locker room key",
+  itemDescription = "Small, silver key. What does it open?",
+  itemHint = "Try to unlock the door using this key",
+  itemCount = 1
 }
 
-note :: Item
-note = Item {
-  itemName = "Note",
-  itemHint = "inspect this note",
-  itemCount = 1,
-  itemDescription = "The note says: 'They security key is 123456'"
+coat :: Item
+coat = Item {
+  itemName = "coat",
+  itemDescription = "The lab coat stirs a sense of familiarity.\n" ++
+                    "The nametag reads: \"Dr. J. Sysy.\", it triggers a cascade of hazy memories. As you run your\n" ++
+                    "fingers over the fabric, flashes of experiments and research echo in your mind.\n" ++
+                    "Memories start coming back to you, it is your coat!\n", -- todo
+  itemHint = "Take a good look at it, maybe you will find something useful",
+  itemCount = 1
 }
+
+crowbar :: Item
+crowbar = Item {
+  itemName = "crowbar",
+  itemDescription = "A heavy, meteal crowbar painted red, the best tool for brute-force solutions",
+  itemHint = "Use it to pry open the ventilation shaft",
+  itemCount = 1
+}
+
+powerCell :: Item
+powerCell = Item {
+  itemName = "power cell",
+  itemDescription = "The power cell pulses with energy, illuminating the room. It may come in handy.",
+  itemHint = "It is a portable source of power",
+  itemCount = 1
+}
+
+labShoes :: Item
+labShoes = Item {
+  itemName = "lab shoes",
+  itemDescription = "A sturdy pair shoes, essential for work in hazardous environments, around chemicals. You can put them on.",
+  itemHint = "Use `put on` to put on the shoes",
+  itemCount = 1
+}
+
+-- todo make item descriptions conditional as they depend on gameState
