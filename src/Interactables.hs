@@ -8,6 +8,7 @@ data Interactable = Interactable {
   hint :: String
 } deriving (Show, Eq)
 
+-- todo
 -- tool chest ?
 -- locker ?
 -- locker compartment ?
