@@ -12,12 +12,10 @@ import qualified Data.Map as Map
 processInput :: String -> GameState -> IO GameState
 processInput input gamestate
   | "look" `isPrefixOf` input = return gamestate { currentRoom = (currentRoom gamestate) }
---  | "inspect" `isPrefixOf` input = inspectItem (drop 8 input) gamestate
+  | "inspect" `isPrefixOf` input = handleInspect (drop 8 input) gamestate
   | "take" `isPrefixOf` input = takeItem (drop 5 input) gamestate
   | "inventory" `isPrefixOf` input = displayInventory gamestate
-  | "instructions" `isPrefixOf` input = do
-      displayInstructions
-      return gamestate
+  | "instructions" `isPrefixOf` input = displayInstructions >> return gamestate
   | "hint here" == input = displayHintForCurrentRoom gamestate
   | "hint" `isPrefixOf` input = displayHintForInteractable (drop 5 input) gamestate
   | "go" `isPrefixOf` input = moveDirection (drop 3 input) gamestate
@@ -26,6 +24,15 @@ processInput input gamestate
   -- todo open, unlock, enter, power on, put on
 
 -- TODO move to appropriate file
+
+-- Helper function returning list of all objects that the player can interact with
+allInteractables :: GameState -> [Interactable]
+allInteractables gameState =
+  let inventoryItems = map fst (Map.elems (inventory gameState))
+      itemsInRoom = roomItems $ currentRoom gameState
+      roomInteractables = interactables $ currentRoom gameState
+  in inventoryItems ++ itemsInRoom ++ roomInteractables
+
 displayHintForCurrentRoom :: GameState -> IO GameState
 displayHintForCurrentRoom gameState =
   let room = currentRoom gameState
@@ -34,27 +41,18 @@ displayHintForCurrentRoom gameState =
 
 displayHintForInteractable :: String -> GameState -> IO GameState
 displayHintForInteractable entityName gameState = do
-  let inventoryItems = map (\(i, c) -> i) (Map.elems (inventory gameState))
-      itemsInRoom = roomItems $ currentRoom gameState
-      roomInteractables = interactables $ currentRoom gameState
-      allInteractables = inventoryItems ++ itemsInRoom ++ roomInteractables
-
-  case filter (\i -> name i == entityName) allInteractables of
-    [entity] -> putStrLn (hint entity)
-    _ -> putStrLn "I don't see it here"
-
+  case find (\i -> name i == entityName) (allInteractables gameState) of
+    Just entity -> putStrLn (hint entity)
+    _ -> putStrLn "I don't see that here"
   return gameState
 
----- Function to inspect an item in the current room
---inspectItem :: String -> GameState -> IO GameState
---inspectItem itemName gamestate =
---  let itemsInRoom = roomItems (currentRoom gamestate)
---      inventoryItems = inventory gamestate
---      inspectableItems = itemsInRoom ++ inventoryItems
---  in case find (\item -> name item == itemName) inspectableItems of
---    Just item -> (putStrLn $ description item) >> return gamestate
---    Nothing -> putStrLn "I don't see that here" >> return gamestate
---
+handleInspect :: String -> GameState -> IO GameState
+handleInspect entityName gameState = do
+  case find (\i -> name i == entityName) (allInteractables gameState) of
+    Just entity -> (putStrLn $ description entity)
+    _ -> putStrLn "I don't see that here"
+  return gameState
+
 
 displayInventory :: GameState -> IO GameState
 displayInventory gameState =
