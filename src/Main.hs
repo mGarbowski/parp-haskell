@@ -1,9 +1,6 @@
 import Data.List
-import Rooms
 import GameState
-import Items
-import Interactables
-import Computer
+import Rooms
 import Commands.Instructions
 import Commands.Unlock
 import Commands.Movement
