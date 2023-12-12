@@ -4,6 +4,7 @@ import Rooms
 import GameState
 import Movement
 import Items
+import Computer
 import qualified Data.Map as Map
 
 -- Function to process player input and update game state
