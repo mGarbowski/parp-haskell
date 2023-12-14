@@ -19,9 +19,13 @@ execCommandLoop = runInputT defaultSettings (loop)
             input <- getInputLine "/home/sysy$ "
             case input of
                Nothing -> return ()
-               Just inp -> do
-                 liftIO $ processCommandInput inp
-                 loop
+               Just inp
+                 | inp `elem` ["shutdown", "exit", "quit"] -> do
+                    liftIO $ putStrLn "Shutting down..."
+                    return ()
+                 | otherwise  -> do
+                    liftIO $ processCommandInput inp
+                    loop
 
 processCommandInput :: Command -> IO ()
 processCommandInput input
@@ -33,9 +37,6 @@ processCommandInput input
     | "cat " `isPrefixOf` input = putStrLn $ "cat: " ++ drop 4 input ++ ": No such file or directory"
     | "sudo " `isPrefixOf` input = passwordLoop (drop 5 input)
     | input == "clear" = putStrLn "\ESC[2J" -- ANSI escape code to clear the terminal
-    | input == "exit" = do putStrLn "shutting down"
-                           return ()
-    | input == "shutdown" = processCommandInput "exit"
     | otherwise = putStrLn $ "Unknown command: " ++ input
 
 
@@ -51,8 +52,6 @@ passwordLoop input = runInputT defaultSettings (loop input)
                 else do
                     processCommandInput input
                     execCommandLoop
-            Just "shutdown" -> liftIO $ processCommandInput "shutdown"
-            Just "exit" -> liftIO $ processCommandInput "exit"
             Just _ -> do
                 outputStrLn "Invalid password."
                 loop input
