@@ -9,4 +9,4 @@ displayInstructions = do
   putStrLn "  - take X: Take an item from the room and add it to your inventory"
   putStrLn "  - inventory: View your current inventory"
   putStrLn "  - go DIRECTION: move to another room to the north, south, east or west"
-  putStrLn "  - instructions: View available instructions"
+  putStrLn "  - instructions: View available instructions\n"

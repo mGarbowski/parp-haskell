@@ -9,6 +9,7 @@ import Commands.Hint
 import Commands.Inspect
 import Commands.Enter
 import Commands.PowerOn
+import Commands.IntroOutro
 import qualified Data.Map as Map
 
 -- Function to process player input and update game state
@@ -45,6 +46,6 @@ gameLoop gamestate = do
 -- Main function to start the game
 main :: IO ()
 main = do
-  putStrLn "Welcome to the Text Adventure Game!"
+  displayIntro
   displayInstructions
   gameLoop initialGameState
