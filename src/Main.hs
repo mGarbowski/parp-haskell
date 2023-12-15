@@ -10,6 +10,7 @@ import Commands.Inspect
 import Commands.Enter
 import Commands.PowerOn
 import Commands.PutOn
+import Commands.Look
 import IntroOutro
 import qualified Data.Map as Map
 import Control.Monad.IO.Class (liftIO)
@@ -20,7 +21,7 @@ import System.Console.Haskeline
 -- Function to process player input and update game state
 processInput :: String -> GameState -> IO GameState
 processInput input gamestate
-  | "look" `isPrefixOf` input          = liftIO (putStrLn $ displayRoom (currentRoom gamestate)) >> return gamestate
+  | "look" `isPrefixOf` input          = handleLook gamestate
   | "inspect" `isPrefixOf` input       = handleInspect (drop 8 input) gamestate
   | "take" `isPrefixOf` input          = takeItem (drop 5 input) gamestate
   | "inventory" `isPrefixOf` input     = displayInventory gamestate
@@ -60,5 +61,5 @@ main :: IO ()
 main = do
   displayIntro
   displayInstructions
-  putStrLn $ displayRoom (currentRoom initialGameState)
+  putStrLn $ roomDescription (currentRoom initialGameState)
   gameLoop initialGameState

@@ -15,7 +15,7 @@ moveDirection directionStr gameState = case parseDirection directionStr of
   where
     tryMove otherRoomName = case Map.lookup otherRoomName (roomStates gameState) of
       Just otherRoom -> do
-            putStrLn $ displayRoom $ otherRoom
+            putStrLn $ roomDescription $ otherRoom
             return $ gameState { currentRoom = otherRoom }
       _ -> return gameState
     handleInvalidDirection = putStrLn "You can go north, south, east, or west" >> return gameState

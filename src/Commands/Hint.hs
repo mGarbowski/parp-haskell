@@ -5,10 +5,12 @@ import Interactables
 import Rooms
 
 displayHintForCurrentRoom :: GameState -> IO GameState
-displayHintForCurrentRoom gameState =
+displayHintForCurrentRoom gameState = do
   let room = currentRoom gameState
-      hintText = roomHint room
-  in putStrLn hintText >> return gameState
+  let hintText = roomHint room
+  putStrLn hintText
+  putStrLn ("Objects in the room: " ++ intercalate ", " (map name (roomItems room ++ interactables room)))
+  return gameState
 
 displayHintForInteractable :: String -> GameState -> IO GameState
 displayHintForInteractable entityName gameState = do
