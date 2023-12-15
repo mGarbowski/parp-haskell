@@ -3,6 +3,7 @@ import Data.List
 import GameState
 import Rooms
 import Interactables
+import Commands.IntroOutro
 
 -- Enter vent if possible
 tryEnterVent :: GameState -> IO GameState
@@ -17,6 +18,16 @@ tryEnterVent gameState =
       False -> return gameState {currentRoom = vent}
 
 
+tryEnterElevator :: GameState -> IO GameState
+tryEnterElevator gamestate = case elevatorOn gamestate of
+    False -> do
+            putStrLn $ "You enter the elevator, but it is not responsive to you pressing the buttons, the security\n" ++
+                "override is in effect."
+            return gamestate
+    True ->  displayOutro >> return gamestate {gameOver = True}
+
+
+
 -- Enter keycode on the keypad in locker room
 tryEnterKeycode :: String -> GameState -> IO GameState
 
@@ -29,3 +40,4 @@ tryEnterKeycode "852611" gameState = do
 tryEnterKeycode _ gameState = do
   putStrLn "The light on the lock blinks red. The provided code was incorrect."
   return gameState
+

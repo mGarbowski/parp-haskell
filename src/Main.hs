@@ -33,6 +33,7 @@ processInput input gamestate
   | "power on computer" == input       = tryPowerOnComputer gamestate
   | "power on generator" == input      = tryPowerOnGenerator gamestate
   | "power on elevator" == input       = tryPowerOnElevator gamestate
+  | "enter elevator" == input          = tryEnterElevator gamestate
   | "clear" == input                   = putStrLn "\ESC[2J" >> return gamestate
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
   -- todo open, power on, put on, enter elevator
