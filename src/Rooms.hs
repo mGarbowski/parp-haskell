@@ -41,8 +41,8 @@ lockerRoom = Room {
                     "To the north, a heavy metal door labeled \"Security\" presents itself to you\n" ++
                     "To the east, you see another door with no labels as to where it leads\n",
   roomHint = "You can interact with the locker, go north or go east, use `examine north door` to get more information.",
-  roomItems = [lockerRoomKey, coat, labShoes],
-  interactables = [keypad],
+  roomItems = [],
+  interactables = [keypad, locker],
   directions = Map.fromList [
     (East, ("Corridor One", False)),
     (North, ("Security Room", False))
@@ -147,7 +147,7 @@ experimentRoomWearingShoes = experimentRoom {
   roomDescription = "You are back in the experiment room.\n" ++
                     "With the shoes that you are wearing, you should be able to walk through that sludge.\n" ++
                     "On the other side of the room, you see the small metal tool chest.",
-  roomItems = [crowbar, powerCell],
+  roomItems = [],
   interactables = [toolChest]
 }
 
