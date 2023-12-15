@@ -137,13 +137,21 @@ experimentRoom = Room {
                     "If you were only able to go through the sludge,\n" ++
                     "you could see what's inside. The door was blown open by the failure of the experiment, it seems.\n" ++
                     "The broken door is laying next to where you stand.\n",
-  roomHint = "You need to acquire some protective gear to walk through the toxic sludge.\n" ++
-             "You can interact with tool chest and broken door\n",
-  roomItems = [crowbar, powerCell],
+  roomHint = "You need to acquire some protective gear to walk through the toxic sludge.",
+  roomItems = [],
   interactables = [brokenDoor],
   directions = Map.fromList [
     (East, ("Corridor Two", True))
   ]
+}
+
+experimentRoomWearingShoes :: Room
+experimentRoomWearingShoes = experimentRoom {
+  roomDescription = "You are back in the experiment room.\n" ++
+                    "With the shoes that you are wearing, you should be able to walk through that sludge.\n" ++
+                    "On the other side of the room, you see the small metal tool chest.",
+  roomItems = [crowbar, powerCell],
+  interactables = [toolChest]
 }
 
 computerRoom :: Room

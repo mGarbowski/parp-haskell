@@ -9,6 +9,7 @@ import Commands.Hint
 import Commands.Inspect
 import Commands.Enter
 import Commands.PowerOn
+import Commands.PutOn
 import IntroOutro
 import qualified Data.Map as Map
 import Control.Monad.IO.Class (liftIO)
@@ -29,11 +30,12 @@ processInput input gamestate
   | "go" `isPrefixOf` input            = moveDirection (drop 3 input) gamestate
   | "unlock" `isPrefixOf` input        = handleUnlock (drop 7 input) gamestate
   | "enter vent" == input              = tryEnterVent gamestate
+  | "enter elevator" == input          = tryEnterElevator gamestate
   | "enter keypad" `isPrefixOf` input  = tryEnterKeycode (drop 13 input) gamestate
   | "power on computer" == input       = tryPowerOnComputer gamestate
   | "power on generator" == input      = tryPowerOnGenerator gamestate
   | "power on elevator" == input       = tryPowerOnElevator gamestate
-  | "enter elevator" == input          = tryEnterElevator gamestate
+  | "put on lab shoes" == input        = handlePutOnShoes gamestate
   | "clear" == input                   = putStrLn "\ESC[2J" >> return gamestate
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
   -- todo open, power on, put on, enter elevator

@@ -82,7 +82,7 @@ desk = Interactable {
 }
 
 keypad :: Interactable
-keypad = Interactable{
+keypad = Interactable {
   name = "keypad",
   description = "A modern keypad, mounted beside the security room door, stands as the gateway to the lab.\n" ++
                 "It features a digital touchscreen with a numeric grid and softly backlit keys.\n" ++
@@ -90,4 +90,11 @@ keypad = Interactable{
   hint = "Use `enter keypad <code>` to enter a code\n" ++
          "Only 6 digits? That's only like 999 999 options, you can just brute force it...\n" ++
          "...or look around for the code, it must be *somewhere*\n"
+}
+
+toolChest :: Interactable
+toolChest = Interactable {
+  name = "tool chest",
+  description = "Inside there is a crowbar and a power cell",
+  hint = "Wearing the shoes, you can cross the toxic puddle and reach into the tool chest"
 }

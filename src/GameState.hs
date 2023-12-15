@@ -44,3 +44,12 @@ allInteractables gameState =
       itemsInRoom = roomItems $ currentRoom gameState
       roomInteractables = interactables $ currentRoom gameState
   in inventoryItems ++ itemsInRoom ++ roomInteractables
+
+
+updateCurrentRoom :: GameState -> GameState
+updateCurrentRoom gameState =
+  let currRoomName = roomName (currentRoom gameState)
+      updatedCurrentRoom = Map.lookup currRoomName (roomStates gameState)
+  in case updatedCurrentRoom of
+    Nothing -> gameState
+    Just room -> gameState {currentRoom = room}
