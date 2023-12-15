@@ -1,12 +1,17 @@
 module GameState where
 import Rooms
 import Interactables
+import Items
 import qualified Data.Map as Map
 
 data GameState = GameState {
   currentRoom :: Room,
   inventory :: Map.Map String (Interactable, Int),  -- mapping item name to item object and count
   roomStates :: Map.Map String Room,
+  lockerCompartmentBlocked :: Bool,
+  lockerContents :: [Interactable],
+  lockerCompartmentContents :: [Interactable],
+  toolChestContents :: [Interactable],
   keycodeEntered :: Bool,
   ventBlocked :: Bool,
   generatorOn :: Bool,
@@ -30,6 +35,10 @@ initialGameState = GameState {
     (roomName vent, vent),
     (roomName exitRoom, exitRoom)
   ],
+  lockerCompartmentBlocked = True,
+  lockerContents=[coat],
+  lockerCompartmentContents=[smallKey],
+  toolChestContents=[powerCell, crowbar],
   keycodeEntered = False,
   ventBlocked = True,
   generatorOn = False,

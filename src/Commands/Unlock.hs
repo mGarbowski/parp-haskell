@@ -18,6 +18,18 @@ handleUnlock "vent" gameState =
                   "Maybe using some tool would help?")
          >> return gameState
 
+handleUnlock "compartment" gameState =
+    if roomName (currentRoom gameState) /= roomName lockerRoom
+    then putStrLn "I don't see that here" >> return gameState
+    else
+        if Map.member (name smallKey) (inventory gameState)
+        then do
+            putStrLn("Unlocked!")
+            return $ gameState { lockerCompartmentBlocked = False}
+        else
+            putStrLn "Can't unlock it. Perhaps you need something to unlock it with?" >> return gameState
+
+
 handleUnlock directionStr gameState =
   case parseDirection directionStr of
     Nothing -> return gameState
