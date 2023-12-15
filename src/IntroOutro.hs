@@ -25,7 +25,8 @@ outro = "\nAs you ascend through the elevator, leaving the depths of the lab beh
     "fades as you reach the surface, greeted by natural light and the open air. The\n" ++
     "door opens, revealing a world beyond the confines of the secretive lab. You have\n" ++
     "successfully escaped, leaving the mysteries and experiments behind. What lies\n" ++
-    "ahead is a new chapter, and the journey to freedom is now yours to explore.\n\n"
+    "ahead is a new chapter, and the journey to freedom is now yours to explore.\n\n" ++
+    "The game is over. Thanks for playing!\n"
 
 displayIntro :: IO ()
 displayIntro = putStr(introduction)

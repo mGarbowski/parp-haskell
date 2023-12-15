@@ -40,16 +40,18 @@ processInput input gamestate
 
 -- Function to run the game loop
 gameLoop :: GameState -> IO ()
-gameLoop gamestate = do
-  runInputT defaultSettings $ do
-    outputStrLn "Enter your command:"
-    minput <- getInputLine "> "
-    case minput of
-      Nothing -> return ()
-      Just input -> liftIO $ do
-        putStrLn ""
-        newGameState <- processInput input gamestate
-        gameLoop newGameState
+gameLoop gamestate = if gameOver gamestate
+  then return()
+  else do
+    runInputT defaultSettings $ do
+      outputStrLn "Enter your command:"
+      minput <- getInputLine "> "
+      case minput of
+        Nothing -> return ()
+        Just input -> liftIO $ do
+          putStrLn ""
+          newGameState <- processInput input gamestate
+          gameLoop newGameState
 
 -- Main function to start the game
 main :: IO ()
