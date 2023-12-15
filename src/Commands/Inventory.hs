@@ -14,10 +14,10 @@ displayInventory gameState =
   in putStrLn text >> return gameState
 
 -- Function to take an item from the current room and add it to the inventory
-takeItem :: String -> GameState -> IO GameState
+takeItemFromContainer :: String -> GameState -> IO GameState
 
 -- special cases for container items first
-takeItem "lab shoes" gameState =
+takeItemFromContainer "lab shoes" gameState =
     if roomName (currentRoom gameState) /= roomName lockerRoom
     then putStrLn "I don't see that here" >> return gameState
     else
@@ -30,20 +30,34 @@ takeItem "lab shoes" gameState =
             lockerCompartmentContents=[]
         }
 
-takeItem "wrench" gameState =
+takeItemFromContainer "wrench" gameState =
     if roomName (currentRoom gameState) /= roomName experimentRoom
     then putStrLn "I don't see that here" >> return gameState
     else do
         let currentInventory = inventory gameState
         let updatedInventory = addItemToInventory labShoes currentInventory
         let currentToolChestContents = toolChestContents gameState
-        let updatedToolChestContents = filter (\item -> name item /= "tool chest") currentToolChestContents
+        let updatedToolChestContents = filter (\item -> name item /= "wrench") currentToolChestContents
         return gameState {
             inventory = updatedInventory,
             toolChestContents = updatedToolChestContents
         }
 
-takeItem itemName gameState =
+takeItemFromContainer "power cell" gameState =
+    if roomName (currentRoom gameState) /= roomName experimentRoom
+    then putStrLn "I don't see that here" >> return gameState
+    else do
+        let currentInventory = inventory gameState
+        let updatedInventory = addItemToInventory labShoes currentInventory
+        let currentToolChestContents = toolChestContents gameState
+        let updatedToolChestContents = filter (\item -> name item /= "power cell") currentToolChestContents
+        return gameState {
+            inventory = updatedInventory,
+            toolChestContents = updatedToolChestContents
+        }
+
+takeItemFromRoom :: String -> GameState -> IO GameState
+takeItemFromRoom itemName gameState =
   case find (\item -> name item == itemName) (roomItems (currentRoom gameState)) of
     Just item -> do
       let currentInventory = inventory gameState
@@ -53,11 +67,21 @@ takeItem itemName gameState =
       let updatedRoom = removeItemFromRoom item (currentRoom gameState)
       let updatedRoomStates = Map.insert currentRoomName updatedRoom currentRoomStates
       return gameState {
-        currentRoom = updatedRoom,
-        inventory = updatedInventory,
-        roomStates = updatedRoomStates
-      }
+             currentRoom = updatedRoom,
+             inventory = updatedInventory,
+             roomStates = updatedRoomStates
+             }
     Nothing -> putStrLn "I don't see that here" >> return gameState
+
+
+takeItem :: String -> GameState -> IO GameState
+takeItem itemName gameState =
+  -- if the item is in a container, call a designated function
+  let alwaysInContainer = itemName `elem` ["lab shoes", "wrench"]
+      powerCellFromContainer = itemName == "power cell" && roomName (currentRoom gameState) == "experiment room" in
+  if alwaysInContainer || powerCellFromContainer
+  then takeItemFromContainer itemName gameState
+  else takeItemFromRoom itemName gameState
 
 
 -- helper functions
