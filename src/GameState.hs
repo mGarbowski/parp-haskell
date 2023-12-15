@@ -52,7 +52,8 @@ allInteractables gameState =
   let inventoryItems = map fst (Map.elems (inventory gameState))
       itemsInRoom = roomItems $ currentRoom gameState
       roomInteractables = interactables $ currentRoom gameState
-  in inventoryItems ++ itemsInRoom ++ roomInteractables
+      containerInteractables = [coat, powerCell, crowbar, lockerRoomKey]
+  in inventoryItems ++ itemsInRoom ++ roomInteractables ++ containerInteractables
 
 
 updateCurrentRoom :: GameState -> GameState

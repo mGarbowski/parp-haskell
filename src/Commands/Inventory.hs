@@ -30,14 +30,14 @@ takeItemFromContainer "lab shoes" gameState =
             lockerCompartmentContents=[]
         }
 
-takeItemFromContainer "wrench" gameState =
+takeItemFromContainer "crowbar" gameState =
     if roomName (currentRoom gameState) /= roomName experimentRoom
     then putStrLn "I don't see that here" >> return gameState
     else do
         let currentInventory = inventory gameState
         let updatedInventory = addItemToInventory labShoes currentInventory
         let currentToolChestContents = toolChestContents gameState
-        let updatedToolChestContents = filter (\item -> name item /= "wrench") currentToolChestContents
+        let updatedToolChestContents = filter (\item -> name item /= "crowbar") currentToolChestContents
         return gameState {
             inventory = updatedInventory,
             toolChestContents = updatedToolChestContents
@@ -55,6 +55,19 @@ takeItemFromContainer "power cell" gameState =
             inventory = updatedInventory,
             toolChestContents = updatedToolChestContents
         }
+
+takeItemFromContainer "coat" gameState =
+    if roomName (currentRoom gameState) /= roomName lockerRoom
+    then putStrLn "I don't see that here" >> return gameState
+    else do
+        let currentInventory = inventory gameState
+        let updatedInventory = addItemToInventory coat currentInventory
+        return gameState {
+            inventory = updatedInventory,
+            lockerContents = []
+        }
+
+takeItemFromContainer _ gameState = return gameState
 
 takeItemFromRoom :: String -> GameState -> IO GameState
 takeItemFromRoom itemName gameState =
@@ -77,7 +90,7 @@ takeItemFromRoom itemName gameState =
 takeItem :: String -> GameState -> IO GameState
 takeItem itemName gameState =
   -- if the item is in a container, call a designated function
-  let alwaysInContainer = itemName `elem` ["lab shoes", "wrench"]
+  let alwaysInContainer = itemName `elem` ["lab shoes", "crowbar", "coat"]
       powerCellFromContainer = itemName == "power cell" && roomName (currentRoom gameState) == "experiment room" in
   if alwaysInContainer || powerCellFromContainer
   then takeItemFromContainer itemName gameState
