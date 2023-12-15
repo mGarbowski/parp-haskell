@@ -96,6 +96,7 @@ toolChest :: Interactable
 toolChest = Interactable {
   name = "tool chest",
   description = "Inside there is a crowbar and a power cell",
+  -- todo: adjust description when items are taken
   hint = "Wearing the shoes, you can cross the toxic puddle and reach into the tool chest"
 }
 
@@ -104,6 +105,7 @@ locker = Interactable {
   name = "locker",
   description = "A locker for storing personal items" ++
                 "\nThe locker reveals two compartments, in the upper part, a lab coat hangs neatly on a hanger" ++
-                "\nBelow there is another locker_compartment.\n",
+                "\nBelow there is another compartment.\n",
+                -- todo: adjust description when coat is taken
   hint = "Look what's inside"
 }
