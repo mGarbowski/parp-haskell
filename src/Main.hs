@@ -22,9 +22,13 @@ import System.Console.Haskeline
 processInput :: String -> GameState -> IO GameState
 processInput input gamestate
   | "look" `isPrefixOf` input          = handleLook gamestate
+  | "l" `isPrefixOf` input             = handleLook gamestate
   | "inspect" `isPrefixOf` input       = handleInspect (drop 8 input) gamestate
+  | "examine" `isPrefixOf` input       = handleInspect (drop 8 input) gamestate
+  | "e" `isPrefixOf` input             = handleInspect (drop 2 input) gamestate
   | "take" `isPrefixOf` input          = takeItem (drop 5 input) gamestate
   | "inventory" `isPrefixOf` input     = displayInventory gamestate
+  | "i" `isPrefixOf` input             = displayInventory gamestate
   | "instructions" `isPrefixOf` input  = displayInstructions >> return gamestate
   | "hint here" == input               = displayHintForCurrentRoom gamestate
   | "hint" `isPrefixOf` input          = displayHintForInteractable (drop 5 input) gamestate
