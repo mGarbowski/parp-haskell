@@ -9,7 +9,7 @@ import Commands.Hint
 import Commands.Inspect
 import Commands.Enter
 import Commands.PowerOn
-import Commands.IntroOutro
+import IntroOutro
 import qualified Data.Map as Map
 import Control.Monad.IO.Class (liftIO)
 import System.Console.Haskeline
@@ -33,22 +33,25 @@ processInput input gamestate
   | "power on computer" == input       = tryPowerOnComputer gamestate
   | "power on generator" == input      = tryPowerOnGenerator gamestate
   | "power on elevator" == input       = tryPowerOnElevator gamestate
+  | "enter elevator" == input          = tryEnterElevator gamestate
   | "clear" == input                   = putStrLn "\ESC[2J" >> return gamestate
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
   -- todo open, power on, put on, enter elevator
 
 -- Function to run the game loop
 gameLoop :: GameState -> IO ()
-gameLoop gamestate = do
-  runInputT defaultSettings $ do
-    outputStrLn "Enter your command:"
-    minput <- getInputLine "> "
-    case minput of
-      Nothing -> return ()
-      Just input -> liftIO $ do
-        putStrLn ""
-        newGameState <- processInput input gamestate
-        gameLoop newGameState
+gameLoop gamestate = if gameOver gamestate
+  then return()
+  else do
+    runInputT defaultSettings $ do
+      outputStrLn "Enter your command:"
+      minput <- getInputLine "> "
+      case minput of
+        Nothing -> return ()
+        Just input -> liftIO $ do
+          putStrLn ""
+          newGameState <- processInput input gamestate
+          gameLoop newGameState
 
 -- Main function to start the game
 main :: IO ()

@@ -10,7 +10,8 @@ data GameState = GameState {
   keycodeEntered :: Bool,
   ventBlocked :: Bool,
   generatorOn :: Bool,
-  elevatorOn :: Bool
+  elevatorOn :: Bool,
+  gameOver :: Bool
 }
 
 -- Function to initialize the game state
@@ -32,7 +33,8 @@ initialGameState = GameState {
   keycodeEntered = False,
   ventBlocked = True,
   generatorOn = False,
-  elevatorOn = False
+  elevatorOn = False,
+  gameOver = False
 }
 
 -- Helper function returning list of all objects that the player can interact with
