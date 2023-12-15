@@ -19,7 +19,7 @@ import System.Console.Haskeline
 -- Function to process player input and update game state
 processInput :: String -> GameState -> IO GameState
 processInput input gamestate
-  | "look" `isPrefixOf` input          = return gamestate { currentRoom = (currentRoom gamestate) }
+  | "look" `isPrefixOf` input          = liftIO (putStrLn $ displayRoom (currentRoom gamestate)) >> return gamestate
   | "inspect" `isPrefixOf` input       = handleInspect (drop 8 input) gamestate
   | "take" `isPrefixOf` input          = takeItem (drop 5 input) gamestate
   | "inventory" `isPrefixOf` input     = displayInventory gamestate
@@ -41,7 +41,6 @@ processInput input gamestate
 gameLoop :: GameState -> IO ()
 gameLoop gamestate = do
   runInputT defaultSettings $ do
-    outputStrLn $ displayRoom (currentRoom gamestate)
     outputStrLn "Enter your command:"
     minput <- getInputLine "> "
     case minput of
@@ -56,4 +55,5 @@ main :: IO ()
 main = do
   displayIntro
   displayInstructions
+  putStrLn $ displayRoom (currentRoom initialGameState)
   gameLoop initialGameState
