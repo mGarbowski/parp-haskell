@@ -37,7 +37,7 @@ initialGameState = GameState {
   ],
   lockerCompartmentBlocked = True,
   lockerContents=[coat],
-  lockerCompartmentContents=[smallKey],
+  lockerCompartmentContents=[labShoes],
   toolChestContents=[powerCell, crowbar],
   keycodeEntered = False,
   ventBlocked = True,

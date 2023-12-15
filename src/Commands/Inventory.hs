@@ -3,6 +3,7 @@ import qualified Data.Map as Map
 import Data.List
 import GameState
 import Rooms
+import Items
 import Interactables
 
 displayInventory :: GameState -> IO GameState
@@ -14,6 +15,20 @@ displayInventory gameState =
 
 -- Function to take an item from the current room and add it to the inventory
 takeItem :: String -> GameState -> IO GameState
+takeItem "labShoes" gameState =
+    if roomName (currentRoom gameState) /= roomName lockerRoom
+    then putStrLn "I don't see that here" >> return gameState
+    else
+      case (lockerCompartmentBlocked gameState) of
+      True -> putStrLn "Unlock the compartment first!" >> return gameState
+      False -> do
+        let currentInventory = inventory gameState
+        let updatedInventory = addItemToInventory labShoes currentInventory
+        return gameState {
+            lockerCompartmentContents=[]
+        }
+
+
 takeItem itemName gameState =
   case find (\item -> name item == itemName) (roomItems (currentRoom gameState)) of
     Just item -> do
