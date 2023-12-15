@@ -10,3 +10,4 @@ displayInstructions = do
   putStrLn "  - inventory: View your current inventory"
   putStrLn "  - go DIRECTION: move to another room to the north, south, east or west"
   putStrLn "  - instructions: View available instructions\n"
+  -- todo

@@ -31,7 +31,7 @@ data Room = Room {
 
 -- Function to display the current room description and items
 displayRoom :: Room -> String
-displayRoom room = roomDescription room ++ "\nItems in the room: " ++ intercalate ", " (map name (roomItems room))
+displayRoom room = roomDescription room ++ "\nObjects in the room: " ++ intercalate ", " (map name (roomItems room ++ interactables room))
 
 -- Function to define the initial room
 lockerRoom :: Room
