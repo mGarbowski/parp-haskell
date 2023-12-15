@@ -15,7 +15,9 @@ displayInventory gameState =
 
 -- Function to take an item from the current room and add it to the inventory
 takeItem :: String -> GameState -> IO GameState
-takeItem "labShoes" gameState =
+
+-- special cases for container items first
+takeItem "lab shoes" gameState =
     if roomName (currentRoom gameState) /= roomName lockerRoom
     then putStrLn "I don't see that here" >> return gameState
     else
@@ -28,6 +30,18 @@ takeItem "labShoes" gameState =
             lockerCompartmentContents=[]
         }
 
+takeItem "wrench" gameState =
+    if roomName (currentRoom gameState) /= roomName experimentRoom
+    then putStrLn "I don't see that here" >> return gameState
+    else do
+        let currentInventory = inventory gameState
+        let updatedInventory = addItemToInventory labShoes currentInventory
+        let currentToolChestContents = toolChestContents gameState
+        let updatedToolChestContents = filter (\item -> name item /= "tool chest") currentToolChestContents
+        return gameState {
+            inventory = updatedInventory,
+            toolChestContents = updatedToolChestContents
+        }
 
 takeItem itemName gameState =
   case find (\item -> name item == itemName) (roomItems (currentRoom gameState)) of
