@@ -1,4 +1,4 @@
-module Commands.IntroOutro where
+module IntroOutro where
 
 introduction :: String
 introduction = "\nAs you slowly open your eyes, a throbbing ache reverberates through your head,\n" ++

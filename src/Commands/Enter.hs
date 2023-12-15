@@ -3,7 +3,7 @@ import Data.List
 import GameState
 import Rooms
 import Interactables
-import Commands.IntroOutro
+import IntroOutro
 
 -- Enter vent if possible
 tryEnterVent :: GameState -> IO GameState

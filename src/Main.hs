@@ -9,7 +9,7 @@ import Commands.Hint
 import Commands.Inspect
 import Commands.Enter
 import Commands.PowerOn
-import Commands.IntroOutro
+import IntroOutro
 import qualified Data.Map as Map
 import Control.Monad.IO.Class (liftIO)
 import System.Console.Haskeline
