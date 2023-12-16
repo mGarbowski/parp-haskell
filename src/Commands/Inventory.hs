@@ -91,7 +91,7 @@ takeItem :: String -> GameState -> IO GameState
 takeItem itemName gameState =
   -- if the item is in a container, call a designated function
   let alwaysInContainer = itemName `elem` ["lab shoes", "crowbar", "coat"]
-      powerCellFromContainer = itemName == "power cell" && roomName (currentRoom gameState) == "experiment room" in
+      powerCellFromContainer = itemName == "power cell" && roomName (currentRoom gameState) == "Experiment Room" in
   if alwaysInContainer || powerCellFromContainer
   then takeItemFromContainer itemName gameState
   else takeItemFromRoom itemName gameState
