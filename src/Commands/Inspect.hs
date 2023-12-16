@@ -12,7 +12,7 @@ handleInspect entityName gameState
   | entityName == name toolChest = handleToolChestInspect gameState
   | entityName == name locker = handleLockerInspect gameState
   | entityName == name compartment = handleCompartmentInspect gameState
-  | otherwise = handleCompartmentInspect gameState
+  | otherwise = handleSimpleInspect entityName gameState
 
 
 handleSimpleInspect :: String -> GameState -> IO GameState
@@ -57,8 +57,8 @@ handleToolChestInspect gameState = do
   let crowbarPresent = elem crowbar toolChestContents
   let powerCellPresent = elem powerCell toolChestContents
   putStrLn $ case (crowbarPresent, powerCellPresent) of
-    (True, True) -> "The tool chest contains both a crowbar and a power cell."
-    (True, False) -> "The tool chest contains a crowbar, but no power cell."
-    (False, True) -> "The tool chest contains a power cell, but no crowbar."
-    (False, False) -> "The tool chest is empty. There is no crowbar or power cell inside."
+    (True, True) -> "The tool chest contains a crowbar and a power cell."
+    (True, False) -> "The tool chest contains a crowbar."
+    (False, True) -> "The tool chest contains a power cell."
+    (False, False) -> "The tool chest is empty."
   return gameState
