@@ -12,6 +12,8 @@ handleInspect entityName gameState
   | entityName == name toolChest = handleToolChestInspect gameState
   | entityName == name locker = handleLockerInspect gameState
   | entityName == name compartment = handleCompartmentInspect gameState
+  | entityName == name coat = handleSpecialInspect coat gameState
+  | entityName == name brokenDoor = handleSpecialInspect brokenDoor gameState
   | otherwise = handleSimpleInspect entityName gameState
 
 
@@ -20,18 +22,27 @@ handleSimpleInspect entityName gameState = do
   case find (\i -> name i == entityName) (allInteractables gameState) of
     Just entity -> do
       (putStrLn $ description entity)
-      if entityName == "coat"
-      then case Map.member (name lockerRoomKey) (inventory gameState) of
-        True -> return gameState
-        False -> return gameState { inventory = addItemToInventory lockerRoomKey (inventory gameState) }
-      else if entityName == "broken door"
-      then case Map.member (name smallKey) (inventory gameState) of
-        True -> return gameState
-        False -> return gameState { inventory = addItemToInventory smallKey (inventory gameState) }
-      else return gameState
     _ -> do putStrLn "I don't see that here"
-            return gameState
+  return gameState
 
+handleSpecialInspect :: Interactable -> GameState -> IO GameState
+handleSpecialInspect entity gameState =
+  let entityName = name entity in do
+    putStrLn $ description entity
+    if entityName == name coat
+    then case Map.member (name lockerRoomKey) (inventory gameState) of
+            True -> return gameState
+            False -> do putStrLn "Instinctively you check your pockets. You feel a small, cold object - a key"
+                        return gameState { inventory = addItemToInventory lockerRoomKey (inventory gameState) }
+    else if entityName == name brokenDoor
+         then case Map.member (name smallKey) (inventory gameState) of
+           True -> return gameState
+           False -> do putStr ("You inspect the door closely and decide to flip it over.\n" ++
+                               "What a surprise! Somebody must've put a key into the keyhole.\n" ++
+                               "The key is bent, but it is attached to a keychain, on which there is another key.\n" ++
+                               "What could it unlock?\n")
+                       return gameState { inventory = addItemToInventory smallKey (inventory gameState) }
+         else return gameState
 
 handleCompartmentInspect :: GameState -> IO GameState
 handleCompartmentInspect gameState =

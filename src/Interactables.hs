@@ -54,9 +54,7 @@ generator = Interactable {
 brokenDoor :: Interactable
 brokenDoor = Interactable {
   name = "broken door",
-  description = "You inspect the door closely and decide to flip it over.\n" ++
-                "What a surprise! Somebody must've put a key into the keyhole.\n" ++
-                "The key is bent, but it is attached to a keychain, on which there is another key. What could it unlock?", -- todo
+  description = "A massive door, ripped out of its hinges is laying on the floor next to the entrance it used to guard.",
   hint = "Maybe taking a closer look at it will reveal something?"
 }
 

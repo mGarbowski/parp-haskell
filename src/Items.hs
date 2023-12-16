@@ -15,7 +15,7 @@ coat = Interactable {
   description = "The lab coat stirs a sense of familiarity.\n" ++
                     "The nametag reads: \"Dr. J. Sysy.\", it triggers a cascade of hazy memories. As you run your\n" ++
                     "fingers over the fabric, flashes of experiments and research echo in your mind.\n" ++
-                    "Memories start coming back to you, it is your coat!\n", -- todo
+                    "Memories start coming back to you, it is your coat!\n",
   hint = "Take a good look at it, maybe you will find something useful"
 }
 
