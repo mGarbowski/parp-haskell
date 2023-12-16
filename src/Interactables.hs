@@ -96,7 +96,6 @@ toolChest :: Interactable
 toolChest = Interactable {
   name = "tool chest",
   description = "Inside there is a crowbar and a power cell",
-  -- todo: conditional description
   hint = "Wearing the shoes, you can cross the toxic puddle and reach into the tool chest"
 }
 
@@ -106,13 +105,12 @@ locker = Interactable {
   description = "A locker for storing personal items" ++
                 "\nThe locker reveals two compartments, in the upper part, a lab coat hangs neatly on a hanger" ++
                 "\nBelow there is another compartment.\n",
-                -- todo: conditional description
   hint = "Look what's inside"
 }
 
 compartment :: Interactable
 compartment = Interactable {
   name = "compartment",
-  description = "In the smaller compartment is pair of sturdy, lab shoes. These could probably come in handy!", -- todo: conditional description
+  description = "In the smaller compartment is pair of sturdy, lab shoes. These could probably come in handy!",
   hint = "Perhaps you can use the contents of the compartment later?"
 }
