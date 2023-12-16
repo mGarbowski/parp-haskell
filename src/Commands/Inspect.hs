@@ -52,4 +52,13 @@ handleLockerInspect gameState =
 
 
 handleToolChestInspect :: GameState -> IO GameState
-handleToolChestInspect gameState = handleSimpleInspect (name toolChest) gameState -- todo!
+handleToolChestInspect gameState = do
+  let toolChestContents = fromJust $ Map.lookup (name toolChest) (containerContents gameState)
+  let crowbarPresent = elem crowbar toolChestContents
+  let powerCellPresent = elem powerCell toolChestContents
+  putStrLn $ case (crowbarPresent, powerCellPresent) of
+    (True, True) -> "The tool chest contains both a crowbar and a power cell."
+    (True, False) -> "The tool chest contains a crowbar, but no power cell."
+    (False, True) -> "The tool chest contains a power cell, but no crowbar."
+    (False, False) -> "The tool chest is empty. There is no crowbar or power cell inside."
+  return gameState
