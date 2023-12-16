@@ -110,3 +110,24 @@ removeItemFromRoom item room =
   let prevItems = roomItems room
       newItems = filter (\i -> name i /= name item) prevItems
   in room {roomItems = newItems}
+
+-- helper functions and map binding item name to container name
+itemNameToContainer :: Map.Map String String
+itemNameToContainer = Map.fromList [(name coat, name locker),
+                                    (name powerCell, name toolChest),
+                                    (name crowbar, name toolChest),
+                                    (name labShoes, name compartment)]
+
+
+getContainerName :: String -> String
+-- returns the name of the container bound to the given item name
+getContainerName itemName =
+  case Map.lookup itemName itemNameToContainer of
+    Nothing -> return "placeholder"
+    Just containerName -> return containerName
+
+canRemoveFromContainer :: String -> GameState -> Bool
+
+getContainerContents :: String -> GameState -> [Interactable]
+
+isContainerAvaialble :: String -> GameState -> Bool
