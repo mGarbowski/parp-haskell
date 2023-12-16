@@ -4,6 +4,7 @@ import GameState
 import Interactables
 import Items
 import Util
+import Container
 import qualified Data.Map as Map
 import Data.Maybe (fromJust)
 
@@ -40,7 +41,7 @@ handleSpecialInspect entity gameState =
            False -> do putStr ("You inspect the door closely and decide to flip it over.\n" ++
                                "What a surprise! Somebody must've put a key into the keyhole.\n" ++
                                "The key is bent, but it is attached to a keychain, on which there is another key.\n" ++
-                               "What could it unlock?\n")
+                               "What could it unlock?")
                        return gameState { inventory = addItemToInventory smallKey (inventory gameState) }
          else return gameState
 
@@ -57,19 +58,23 @@ handleLockerInspect gameState =
       False -> do
                putStr ("A locker for storing personal items" ++
                       "\nThe locker reveals two compartments, in the upper part, where you took the coat from and" ++
-                      "\nanother compartment below it.\n")
+                      "\nanother compartment below it.")
                return gameState
       True -> handleSimpleInspect (name locker) gameState
 
 
 handleToolChestInspect :: GameState -> IO GameState
 handleToolChestInspect gameState = do
-  let toolChestContents = fromJust $ Map.lookup (name toolChest) (containerContents gameState)
-  let crowbarPresent = elem crowbar toolChestContents
-  let powerCellPresent = elem powerCell toolChestContents
-  putStrLn $ case (crowbarPresent, powerCellPresent) of
-    (True, True) -> "The tool chest contains a crowbar and a power cell."
-    (True, False) -> "The tool chest contains a crowbar."
-    (False, True) -> "The tool chest contains a power cell."
-    (False, False) -> "The tool chest is empty."
-  return gameState
+  isAvailable <- isContainerAvaialable (name powerCell) gameState
+  case isAvailable of
+    False -> return gameState
+    True -> do
+              let toolChestContents = fromJust $ Map.lookup (name toolChest) (containerContents gameState)
+              let crowbarPresent = elem crowbar toolChestContents
+              let powerCellPresent = elem powerCell toolChestContents
+              putStrLn $ case (crowbarPresent, powerCellPresent) of
+                (True, True) -> "The tool chest contains a crowbar and a power cell."
+                (True, False) -> "The tool chest contains a crowbar."
+                (False, True) -> "The tool chest contains a power cell."
+                (False, False) -> "The tool chest is empty."
+              return gameState
