@@ -1,0 +1,370 @@
+ghci> main
+Available Instructions:
+  - look: View the current room
+  - inspect X: Inspect an object in the room
+  - take X: Take an item from the room and add it to your inventory
+  - inventory: View your current inventory
+  - hint X: View a hint for an object or `hint here` for the current room if you are stuck
+  - go DIRECTION: move to another room to the north, south, east or west
+  - unlock DIRECTION: unlock doors in this direction
+  - enter X: to go inside X
+  - instructions: Display this list again
+... and more for you to find out on your own (or by reading hints)
+
+
+As you slowly open your eyes, a throbbing ache reverberates through your head,
+and the acrid scent of chemicals fills the air. Disoriented, you find yourself lying
+on a cold metal floor in what appears to be a dimly lit locker room. The flickering
+light above casts unsettling shadows on the lockers that surround you.
+
+A soft hum of emergency alarms pulsates through the room, and the distant echoes
+of chaotic commotion resonate in the air. Struggling to your feet, you notice a faint
+glow emanating from a small screen hanged on the wall near the entrance.
+The screen flickers to life, displaying a message in stark white letters:
+
+"Dr S., the experiment has failed. Containment breach detected. Evacuation
+protocol initiated. Escape the facility before critical systems fail. Beware of
+anomalies. Your survival is paramount. Time is of the essence."
+
+With a sense of urgency, you realize that your fate is entwined with the impending
+collapse of the lab. The clock is ticking, and the path to freedom is uncertain.
+
+The locker room is dimly lit, with a faint hum of machinery in the air. Rows
+of lockers fill the space, closed and orderly. However, one locker catches
+your eye - slightly open, a hint of something inside. It seems like the owner
+forgot to lock it properly
+To the north, a heavy metal door labeled "Security" and a modern keypad next to it present themselves to you
+To the east, you see another door with no labels as to where it leads
+
+Enter your command:
+> inspect locker
+
+A locker for storing personal items
+The locker reveals two compartments, in the upper part, a lab coat hangs neatly on a hanger
+Below there is another compartment.
+> inspect coat
+
+The lab coat stirs a sense of familiarity.
+The nametag reads: "Dr. J. Sysy.", it triggers a cascade of hazy memories. As you run your
+fingers over the fabric, flashes of experiments and research echo in your mind.
+Memories start coming back to you, it is your coat!
+Instinctively you check your pockets. You feel a small, cold object - a key
+> inventory
+
+- locker room key x1
+> inspect compartment
+
+The bottom compartment is locked. There is a keyhole, but where is the key?
+> unlock east
+
+Door unlocked
+> go east
+
+You find yourself in a dimly lit corridor, the ambient light casting faint shadows.
+Directly ahead to the north, a door labeled "Generator Room" stands prominently.
+Looking to the south, the corridor stretches away, its destination obscured by the dim lighting,
+The western door leads to the locker room.
+
+> go south
+
+You are further down the corridor, to the west - entrance to the experiment chamber.
+The air is heavy with the weight of past scientific endeavors ...or are those toxic fumes?
+To the east - a locked door guards more secrets.
+
+> go west
+
+You are in the experiment room. The floor is covered in a sticky, toxic sludge.
+On the other side of the room, you see a small metal tool chest.
+If you were only able to go through the sludge,
+you could see what's inside. The door was blown open by the failure of the experiment, it seems.
+The broken door is laying next to where you stand.
+> hint here
+
+You need to acquire some protective gear to walk through the toxic sludge.
+Objects in the room: broken door
+> inspect broken door
+
+A massive door, ripped out of its hinges is laying on the floor next to the entrance it used to guard.
+You inspect the door closely and decide to flip it over.
+What a surprise! Somebody must've put a key into the keyhole.
+The key is bent, but it is attached to a keychain, on which there is another key.
+What could it unlock?
+> inventory
+
+- locker room key x1
+- small key x1
+> go east
+
+You are further down the corridor, to the west - entrance to the experiment chamber.
+The air is heavy with the weight of past scientific endeavors ...or are those toxic fumes?
+To the east - a locked door guards more secrets.
+
+> go north
+
+You find yourself in a dimly lit corridor, the ambient light casting faint shadows.
+Directly ahead to the north, a door labeled "Generator Room" stands prominently.
+Looking to the south, the corridor stretches away, its destination obscured by the dim lighting,
+The western door leads to the locker room.
+
+> go west
+
+The locker room is dimly lit, with a faint hum of machinery in the air. Rows
+of lockers fill the space, closed and orderly. However, one locker catches
+your eye - slightly open, a hint of something inside. It seems like the owner
+forgot to lock it properly
+To the north, a heavy metal door labeled "Security" and a modern keypad next to it present themselves to you
+To the east, you see another door with no labels as to where it leads
+
+> unlock compartment
+
+Unlocked!
+> inspect compartment
+
+In the smaller compartment is pair of sturdy, lab shoes. These could probably come in handy!
+> take lab shoes
+
+> hint lab shoes
+
+Use `put on` to put on the shoes
+> put on lab shoes
+
+The boots are really heavy and feel solid. You put them on.
+> go east
+
+You find yourself in a dimly lit corridor, the ambient light casting faint shadows.
+Directly ahead to the north, a door labeled "Generator Room" stands prominently.
+Looking to the south, the corridor stretches away, its destination obscured by the dim lighting,
+The western door leads to the locker room.
+
+> go south
+
+You are further down the corridor, to the west - entrance to the experiment chamber.
+The air is heavy with the weight of past scientific endeavors ...or are those toxic fumes?
+To the east - a locked door guards more secrets.
+
+> go west
+
+You are back in the experiment room.
+With the shoes that you are wearing, you should be able to walk through that sludge.
+On the other side of the room, you see the small metal tool chest.
+> inspect tool chest
+
+The tool chest contains a crowbar and a power cell.
+> take crowbar
+
+> take power cell
+
+> inventory
+
+- crowbar x1
+- locker room key x1
+- power cell x1
+- small key x1
+> inspect tool chest
+
+The tool chest is empty.
+> go east
+
+You are further down the corridor, to the west - entrance to the experiment chamber.
+The air is heavy with the weight of past scientific endeavors ...or are those toxic fumes?
+To the east - a locked door guards more secrets.
+
+> go north
+
+You find yourself in a dimly lit corridor, the ambient light casting faint shadows.
+Directly ahead to the north, a door labeled "Generator Room" stands prominently.
+Looking to the south, the corridor stretches away, its destination obscured by the dim lighting,
+The western door leads to the locker room.
+
+> go north
+
+As you explore the generator room, the dormant generator at the center stands in
+stark contrast to the adjacent ventilation shaft. The idle turbines offer a
+glimpse into the halted functionality of the lab's power source.
+The ventilation shaft on the southern wall,
+though vibrating with a faint breeze, seems large enough for someone to
+fit through.
+> inspect generator
+
+The emergency power generator looms with a single glowing cell within, flanked by two conspicuous empty slots,
+rendering the machine silent and incomplete, waiting for its missing components.
+In order to restore electricity in the lab, the two remaining cells have to be found.
+> unlock vent
+
+You slide the crowbar between the vent door and its door frame
+and push with a lot of force. The vent swings open!
+> enter vent
+
+You are in the vent shaft. You can proceed east, south or north
+> go east
+
+As you're crawling out of the ventilation shaft, you notice an elevator.
+Finally, a way out of this maze!
+> hint here
+
+You can interact with vent and elevator
+Objects in the room: power cell, elevator, vent
+> take power cell
+
+> hint elevator
+
+To go inside use `enter elevator`
+> enter elevator
+
+You enter the elevator, but it is not responsive to you pressing the buttons, the security
+override is in effect.
+> enter vent
+
+You are in the vent shaft. You can proceed east, south or north
+> go south
+
+As you step into the room bathed in soft light, you notice a solitary desk at
+its center. On the desk rests a computer, its screen silent and
+dark. The absence of the usual hum of electronic activity adds an eerie calm
+to the room, leaving the space seemingly dormant.
+To the west there is a door locked from this side.
+
+> inspect desk
+
+The desk in the room is simple yet functional. It holds a powered-off computer
+at its center. The smooth surface suggests a place for work or study, while
+the surrounding space remains uncluttered, you bend to see what's underneath it
+There is a sticky note! It says "pass: rot13(XvetvfJnygre)"
+What's rot13? The computer nerds from the lab wouldn't just leave a password in plain text for everyone to see
+> power on computer
+
+/home/sysy$ ls
+
+/home/sysy$ ls -a
+.pass
+/home/sysy$ cat .pass
+Permission denied
+/home/sysy$ ls -la
+-r-------- 1 root root 123 Nov 11 12:34 .pass
+/home/sysy$ sudo cat .pass
+[sudo] password for sysy: KirgisWalter
+security code: 852611
+/home/sysy$ shutdown
+Shutting down...
+> unlock west
+
+Door unlocked
+> go west
+
+You are further down the corridor, to the west - entrance to the experiment chamber.
+The air is heavy with the weight of past scientific endeavors ...or are those toxic fumes?
+To the east - a locked door guards more secrets.
+
+> go north
+
+You find yourself in a dimly lit corridor, the ambient light casting faint shadows.
+Directly ahead to the north, a door labeled "Generator Room" stands prominently.
+Looking to the south, the corridor stretches away, its destination obscured by the dim lighting,
+The western door leads to the locker room.
+
+> go north
+
+As you explore the generator room, the dormant generator at the center stands in
+stark contrast to the adjacent ventilation shaft. The idle turbines offer a
+glimpse into the halted functionality of the lab's power source.
+The ventilation shaft on the southern wall,
+though vibrating with a faint breeze, seems large enough for someone to
+fit through.
+> power on generator
+
+With a satisfying click, you slot the power cells into place.
+The generator springs to life with a reassuring hum. Lights flicker on, flooding the room with a steady glow.
+The air vibrates with renewed energy, and the machinery's gentle rumble signals success, powering up the entire lab.
+> go south
+
+You find yourself in a dimly lit corridor, the ambient light casting faint shadows.
+Directly ahead to the north, a door labeled "Generator Room" stands prominently.
+Looking to the south, the corridor stretches away, its destination obscured by the dim lighting,
+The western door leads to the locker room.
+
+> go west
+
+The locker room is dimly lit, with a faint hum of machinery in the air. Rows
+of lockers fill the space, closed and orderly. However, one locker catches
+your eye - slightly open, a hint of something inside. It seems like the owner
+forgot to lock it properly
+To the north, a heavy metal door labeled "Security" and a modern keypad next to it present themselves to you
+To the east, you see another door with no labels as to where it leads
+
+> hint keypad
+
+Use `enter keypad <code>` to enter a code
+Only 6 digits? That's only like 999 999 options, you can just brute force it...
+...or look around for the code, it must be *somewhere*
+> enter keypad 852611
+
+The light on the lock blinks green, it buzzes and unlocks. Correct!
+> unlock north
+
+Door unlocked
+> go north
+
+The security room is dimly lit, the soft glow of monitors casting a blue hue on
+the walls. The air is cool, and the hum of electronic equipment fills the room.
+Rows of monitors display surveillance footage, capturing glimpses of different
+sections of the lab. The power control switches on the central console beckon,
+suggesting a pivotal role in the functionality of the facility.
+
+> hint here
+
+You can interact with the control panel or go south
+Objects in the room: control panel
+> hint control panel
+
+You can use it to `power on` something
+> power on elevator
+
+You hear a friendly <click> sound and see a reassuring flash of green light
+> go south
+
+The locker room is dimly lit, with a faint hum of machinery in the air. Rows
+of lockers fill the space, closed and orderly. However, one locker catches
+your eye - slightly open, a hint of something inside. It seems like the owner
+forgot to lock it properly
+To the north, a heavy metal door labeled "Security" and a modern keypad next to it present themselves to you
+To the east, you see another door with no labels as to where it leads
+
+> go east
+
+You find yourself in a dimly lit corridor, the ambient light casting faint shadows.
+Directly ahead to the north, a door labeled "Generator Room" stands prominently.
+Looking to the south, the corridor stretches away, its destination obscured by the dim lighting,
+The western door leads to the locker room.
+
+> go south
+
+You are further down the corridor, to the west - entrance to the experiment chamber.
+The air is heavy with the weight of past scientific endeavors ...or are those toxic fumes?
+To the east - a locked door guards more secrets.
+
+> go east
+
+As you step into the room bathed in soft light, you notice a solitary desk at
+its center. On the desk rests a computer, its screen silent and
+dark. The absence of the usual hum of electronic activity adds an eerie calm
+to the room, leaving the space seemingly dormant.
+To the west there is a door locked from this side.
+
+> enter vent
+
+You are in the vent shaft. You can proceed east, south or north
+> go east
+
+As you're crawling out of the ventilation shaft, you notice an elevator.
+Finally, a way out of this maze!
+> enter elevator
+
+As you ascend through the elevator, leaving the depths of the lab behind, a sense
+of accomplishment washes over you. The familiar hum of the machinery gradually
+fades as you reach the surface, greeted by natural light and the open air. The
+door opens, revealing a world beyond the confines of the secretive lab. You have
+successfully escaped, leaving the mysteries and experiments behind. What lies
+ahead is a new chapter, and the journey to freedom is now yours to explore.
+
+The game is over. Thanks for playing!
+
