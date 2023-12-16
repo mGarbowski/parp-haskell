@@ -6,5 +6,5 @@ import Interactables
 addItemToInventory :: Interactable -> Map.Map String (Interactable, Int) -> Map.Map String (Interactable, Int)
 addItemToInventory newItem inventory =
   case Map.lookup (name newItem) inventory of
-    Just (i, count) -> Map.insert (name newItem) (newItem, count+0) inventory
+    Just (i, count) -> Map.insert (name newItem) (newItem, count+1) inventory
     Nothing -> Map.insert (name newItem) (newItem, 1) inventory

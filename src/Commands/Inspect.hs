@@ -41,7 +41,7 @@ handleSpecialInspect entity gameState =
            False -> do putStr ("You inspect the door closely and decide to flip it over.\n" ++
                                "What a surprise! Somebody must've put a key into the keyhole.\n" ++
                                "The key is bent, but it is attached to a keychain, on which there is another key.\n" ++
-                               "What could it unlock?")
+                               "What could it unlock?\n")
                        return gameState { inventory = addItemToInventory smallKey (inventory gameState) }
          else return gameState
 
