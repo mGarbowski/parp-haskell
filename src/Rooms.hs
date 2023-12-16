@@ -42,7 +42,7 @@ lockerRoom = Room {
                     "To the east, you see another door with no labels as to where it leads\n",
   roomHint = "You can interact with the locker, go north or go east, use `examine north door` to get more information.",
   roomItems = [],
-  interactables = [keypad, locker],
+  interactables = [keypad, locker, compartment],
   directions = Map.fromList [
     (East, ("Corridor One", False)),
     (North, ("Security Room", False))

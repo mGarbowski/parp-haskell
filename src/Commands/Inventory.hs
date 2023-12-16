@@ -5,6 +5,8 @@ import GameState
 import Rooms
 import Items
 import Interactables
+import Util
+import Container
 
 displayInventory :: GameState -> IO GameState
 displayInventory gameState =
@@ -13,61 +15,6 @@ displayInventory gameState =
       text = intercalate "\n" lines
   in putStrLn text >> return gameState
 
--- Function to take an item from the current room and add it to the inventory
-takeItemFromContainer :: String -> GameState -> IO GameState
-
--- special cases for container items first
-takeItemFromContainer "lab shoes" gameState =
-    if roomName (currentRoom gameState) /= roomName lockerRoom
-    then putStrLn "I don't see that here" >> return gameState
-    else
-      case (lockerCompartmentBlocked gameState) of
-      True -> putStrLn "Unlock the compartment first!" >> return gameState
-      False -> do
-        let currentInventory = inventory gameState
-        let updatedInventory = addItemToInventory labShoes currentInventory
-        return gameState {
-            lockerCompartmentContents=[]
-        }
-
-takeItemFromContainer "crowbar" gameState =
-    if roomName (currentRoom gameState) /= roomName experimentRoom
-    then putStrLn "I don't see that here" >> return gameState
-    else do
-        let currentInventory = inventory gameState
-        let updatedInventory = addItemToInventory labShoes currentInventory
-        let currentToolChestContents = toolChestContents gameState
-        let updatedToolChestContents = filter (\item -> name item /= "crowbar") currentToolChestContents
-        return gameState {
-            inventory = updatedInventory,
-            toolChestContents = updatedToolChestContents
-        }
-
-takeItemFromContainer "power cell" gameState =
-    if roomName (currentRoom gameState) /= roomName experimentRoom
-    then putStrLn "I don't see that here" >> return gameState
-    else do
-        let currentInventory = inventory gameState
-        let updatedInventory = addItemToInventory labShoes currentInventory
-        let currentToolChestContents = toolChestContents gameState
-        let updatedToolChestContents = filter (\item -> name item /= "power cell") currentToolChestContents
-        return gameState {
-            inventory = updatedInventory,
-            toolChestContents = updatedToolChestContents
-        }
-
-takeItemFromContainer "coat" gameState =
-    if roomName (currentRoom gameState) /= roomName lockerRoom
-    then putStrLn "I don't see that here" >> return gameState
-    else do
-        let currentInventory = inventory gameState
-        let updatedInventory = addItemToInventory coat currentInventory
-        return gameState {
-            inventory = updatedInventory,
-            lockerContents = []
-        }
-
-takeItemFromContainer _ gameState = return gameState
 
 takeItemFromRoom :: String -> GameState -> IO GameState
 takeItemFromRoom itemName gameState =
@@ -89,45 +36,15 @@ takeItemFromRoom itemName gameState =
 
 takeItem :: String -> GameState -> IO GameState
 takeItem itemName gameState =
-  -- if the item is in a container, call a designated function
-  let alwaysInContainer = itemName `elem` ["lab shoes", "crowbar", "coat"]
-      powerCellFromContainer = itemName == "power cell" && roomName (currentRoom gameState) == "Experiment Room" in
+  -- separate cases for removing from room or from container
+  let alwaysInContainer = itemName `elem` [name labShoes, name crowbar, name coat]
+      powerCellFromContainer = itemName == name powerCell && roomName (currentRoom gameState) == roomName experimentRoom in
   if alwaysInContainer || powerCellFromContainer
   then takeItemFromContainer itemName gameState
   else takeItemFromRoom itemName gameState
-
-
--- helper functions
-addItemToInventory :: Interactable -> Map.Map String (Interactable, Int) -> Map.Map String (Interactable, Int)
-addItemToInventory newItem inventory =
-  case Map.lookup (name newItem) inventory of
-    Just (i, count) -> Map.insert (name newItem) (newItem, count+1) inventory
-    Nothing -> Map.insert (name newItem) (newItem, 1) inventory
-
 
 removeItemFromRoom :: Interactable -> Room -> Room
 removeItemFromRoom item room =
   let prevItems = roomItems room
       newItems = filter (\i -> name i /= name item) prevItems
   in room {roomItems = newItems}
-
--- helper functions and map binding item name to container name
-itemNameToContainer :: Map.Map String String
-itemNameToContainer = Map.fromList [(name coat, name locker),
-                                    (name powerCell, name toolChest),
-                                    (name crowbar, name toolChest),
-                                    (name labShoes, name compartment)]
-
-
-getContainerName :: String -> String
--- returns the name of the container bound to the given item name
-getContainerName itemName =
-  case Map.lookup itemName itemNameToContainer of
-    Nothing -> return "placeholder"
-    Just containerName -> return containerName
-
-canRemoveFromContainer :: String -> GameState -> Bool
-
-getContainerContents :: String -> GameState -> [Interactable]
-
-isContainerAvaialble :: String -> GameState -> Bool

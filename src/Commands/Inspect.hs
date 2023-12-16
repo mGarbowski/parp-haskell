@@ -3,7 +3,7 @@ import Data.List
 import GameState
 import Interactables
 import Items
-import Commands.Inventory
+import Util
 import qualified Data.Map as Map
 
 handleInspect :: String -> GameState -> IO GameState
