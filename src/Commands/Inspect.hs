@@ -17,7 +17,7 @@ handleInspect entityName gameState = do
         False -> return gameState { inventory = addItemToInventory lockerRoomKey (inventory gameState) }
       else if entityName == "broken door"
       then case Map.member (name smallKey) (inventory gameState) of
-        False -> return gameState
-        True -> return gameState { inventory = addItemToInventory smallKey (inventory gameState) }
+        True -> return gameState
+        False -> return gameState { inventory = addItemToInventory smallKey (inventory gameState) }
       else return gameState
     _ -> putStrLn "I don't see that here" >> return gameState

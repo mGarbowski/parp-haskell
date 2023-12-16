@@ -136,7 +136,7 @@ experimentRoom = Room {
                     "The broken door is laying next to where you stand.\n",
   roomHint = "You need to acquire some protective gear to walk through the toxic sludge.",
   roomItems = [],
-  interactables = [brokenDoor],
+  interactables = [brokenDoor, toolChest], -- todo: delete tool chest
   directions = Map.fromList [
     (East, ("Corridor Two", True))
   ]
