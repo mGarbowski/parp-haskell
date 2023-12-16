@@ -51,7 +51,6 @@ gameLoop gamestate = if gameOver gamestate
   then return()
   else do
     runInputT defaultSettings $ do
-      outputStrLn "\nEnter your command:"
       minput <- getInputLine "> "
       case minput of
         Nothing -> return ()
@@ -63,7 +62,8 @@ gameLoop gamestate = if gameOver gamestate
 -- Main function to start the game
 main :: IO ()
 main = do
-  displayIntro
   displayInstructions
+  displayIntro
   putStrLn $ roomDescription (currentRoom initialGameState)
+  putStrLn "Enter your command:"
   gameLoop initialGameState

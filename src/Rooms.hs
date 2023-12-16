@@ -37,10 +37,10 @@ lockerRoom = Room {
   roomDescription = "The locker room is dimly lit, with a faint hum of machinery in the air. Rows\n" ++
                     "of lockers fill the space, closed and orderly. However, one locker catches\n" ++
                     "your eye - slightly open, a hint of something inside. It seems like the owner\n" ++
-                    "forgot to lock it properly.\n" ++
-                    "To the north, a heavy metal door labeled \"Security\" presents itself to you\n" ++
-                    "To the east, you see another door with no labels as to where it leads.\n",
-  roomHint = "You can interact with the locker, go north or go east, use `examine north door` to get more information.",
+                    "forgot to lock it properly\n" ++
+                    "To the north, a heavy metal door labeled \"Security\" and a modern keypad next to it present themselves to you\n" ++
+                    "To the east, you see another door with no labels as to where it leads\n",
+  roomHint = "You can interact with the locker, go north or go east, inspect the keypad next to security doors to find out more.",
   roomItems = [],
   interactables = [keypad, locker, compartment],
   directions = Map.fromList [
