@@ -10,9 +10,10 @@ import Util
 
 takeItemFromContainer :: String -> GameState -> IO GameState
 -- handles removal of an item from its container
-takeItemFromContainer itemName gameState =
-  case isContainerAvaialble itemName gameState of
-    False -> putStrLn "It's not in your reach. Perhaps you need to be closer to it?" >> return gameState
+takeItemFromContainer itemName gameState = do
+  isAvailable <- (isContainerAvaialable itemName gameState)
+  case isAvailable of
+    False -> return gameState
     True -> do
       if canRemoveFromContainer itemName gameState == False
       then putStrLn "Don't see it here" >> return gameState
@@ -52,11 +53,16 @@ canRemoveFromContainer :: String -> GameState -> Bool
 canRemoveFromContainer itemName gameState =
   itemName `elem` (map name (getContainerContents itemName gameState))
 
-isContainerAvaialble :: String -> GameState -> Bool
-{- if the container related to the itemName is in the same room as the player, returns True. Else False
-    Related to the experiment room case when toolChest is not interactable until the player has the boots on -}
-isContainerAvaialble itemName gameState =
+isContainerAvaialable :: String -> GameState -> IO Bool
+{- if the container related to the itemName is in the same room as the player and it is not locked, returns True.
+Else False. Related to the experiment room case when toolChest is not interactable until the player has the boots on
+and the locked locker compartment -}
+isContainerAvaialable itemName gameState =
   let currentRoomInteractables = interactables $ currentRoom gameState
       relatedContainer = getContainerName itemName
       currRoomInteractablesByName = map name currentRoomInteractables
-  in relatedContainer `elem` currRoomInteractablesByName
+      locked = not (relatedContainer /= name compartment && lockerCompartmentBlocked gameState) in
+        if locked then putStrLn "You can't take it out, the container is locked" >> return False
+        else if not (relatedContainer `elem` currRoomInteractablesByName)
+             then putStrLn "Don't see that here" >> return False
+             else return True
