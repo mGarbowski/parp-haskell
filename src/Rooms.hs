@@ -37,9 +37,9 @@ lockerRoom = Room {
   roomDescription = "The locker room is dimly lit, with a faint hum of machinery in the air. Rows\n" ++
                     "of lockers fill the space, closed and orderly. However, one locker catches\n" ++
                     "your eye - slightly open, a hint of something inside. It seems like the owner\n" ++
-                    "forgot to lock it properly\n" ++
+                    "forgot to lock it properly.\n" ++
                     "To the north, a heavy metal door labeled \"Security\" presents itself to you\n" ++
-                    "To the east, you see another door with no labels as to where it leads\n",
+                    "To the east, you see another door with no labels as to where it leads.\n",
   roomHint = "You can interact with the locker, go north or go east, use `examine north door` to get more information.",
   roomItems = [],
   interactables = [keypad, locker, compartment],
@@ -106,7 +106,7 @@ generatorRoom = Room {
                     "glimpse into the halted functionality of the lab's power source.\n" ++
                     "The ventilation shaft on the southern wall,\n" ++
                     "though vibrating with a faint breeze, seems large enough for someone to\n" ++
-                    "fit through.\n",
+                    "fit through.",
   roomHint = "You can interact with generator, vent or go south",
   roomItems = [],
   interactables = [generator, ventEntrance],
@@ -119,7 +119,7 @@ exitRoom :: Room
 exitRoom = Room {
   roomName = "Exit Room",
   roomDescription = "As you're crawling out of the ventilation shaft, you notice an elevator.\n" ++
-                    "Finally, a way out of this maze!\n",
+                    "Finally, a way out of this maze!", -- todo: tell the user there even is a power cell here or grab it for him as he enters
   roomHint = "You can interact with vent and elevator",
   roomItems = [powerCell],
   interactables = [elevator, ventEntrance],
@@ -133,10 +133,10 @@ experimentRoom = Room {
                     "On the other side of the room, you see a small metal tool chest.\n" ++
                     "If you were only able to go through the sludge,\n" ++
                     "you could see what's inside. The door was blown open by the failure of the experiment, it seems.\n" ++
-                    "The broken door is laying next to where you stand.\n",
+                    "The broken door is laying next to where you stand.",
   roomHint = "You need to acquire some protective gear to walk through the toxic sludge.",
   roomItems = [],
-  interactables = [brokenDoor, toolChest], -- todo: delete tool chest
+  interactables = [brokenDoor],
   directions = Map.fromList [
     (East, ("Corridor Two", True))
   ]
@@ -158,7 +158,7 @@ computerRoom = Room {
                     "its center. On the desk rests a computer, its screen silent and\n" ++
                     "dark. The absence of the usual hum of electronic activity adds an eerie calm\n" ++
                     "to the room, leaving the space seemingly dormant.\n" ++
-                    "To the west there is a door locked from this side\n",
+                    "To the west there is a door locked from this side.\n",
   roomHint = "You can interact with: computer, desk, vent or try the door to the west",
   roomItems = [],
   interactables = [computer, desk, ventEntrance],

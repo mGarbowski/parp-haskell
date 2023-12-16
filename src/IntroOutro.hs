@@ -20,7 +20,7 @@ introduction = "\nAs you slowly open your eyes, a throbbing ache reverberates th
 
 
 outro :: String
-outro = "\nAs you ascend through the elevator, leaving the depths of the lab behind, a sense\n" ++
+outro = "As you ascend through the elevator, leaving the depths of the lab behind, a sense\n" ++
     "of accomplishment washes over you. The familiar hum of the machinery gradually\n" ++
     "fades as you reach the surface, greeted by natural light and the open air. The\n" ++
     "door opens, revealing a world beyond the confines of the secretive lab. You have\n" ++
