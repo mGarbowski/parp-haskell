@@ -61,7 +61,7 @@ isContainerAvaialable itemName gameState =
   let currentRoomInteractables = interactables $ currentRoom gameState
       relatedContainer = getContainerName itemName
       currRoomInteractablesByName = map name currentRoomInteractables
-      locked = not (relatedContainer /= name compartment && lockerCompartmentBlocked gameState) in
+      locked = relatedContainer == name compartment && lockerCompartmentBlocked gameState in
         if locked then putStrLn "You can't take it out, the container is locked" >> return False
         else if not (relatedContainer `elem` currRoomInteractablesByName)
              then putStrLn "Don't see that here" >> return False
