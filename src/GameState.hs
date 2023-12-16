@@ -9,9 +9,7 @@ data GameState = GameState {
   inventory :: Map.Map String (Interactable, Int),  -- mapping item name to item object and count
   roomStates :: Map.Map String Room,
   lockerCompartmentBlocked :: Bool,
-  lockerContents :: [Interactable],
-  lockerCompartmentContents :: [Interactable],
-  toolChestContents :: [Interactable],
+  containerContents = Map.Map String [Interactable]
   keycodeEntered :: Bool,
   ventBlocked :: Bool,
   generatorOn :: Bool,
@@ -36,9 +34,9 @@ initialGameState = GameState {
     (roomName exitRoom, exitRoom)
   ],
   lockerCompartmentBlocked = True,
-  lockerContents=[coat],
-  lockerCompartmentContents=[labShoes],
-  toolChestContents=[powerCell, crowbar],
+  containerContents = Map.fromList [(name locker, [name coat]),
+                                 (name toolChest, [name powerCell, name crowbar]),
+                                 (name compartment, [name labShoes])]
   keycodeEntered = False,
   ventBlocked = True,
   generatorOn = False,
