@@ -3,7 +3,10 @@ import qualified Data.Map as Map
 import Data.List
 import GameState
 import Rooms
+import Items
 import Interactables
+import Util
+import Container
 
 displayInventory :: GameState -> IO GameState
 displayInventory gameState =
@@ -12,9 +15,9 @@ displayInventory gameState =
       text = intercalate "\n" lines
   in putStrLn text >> return gameState
 
--- Function to take an item from the current room and add it to the inventory
-takeItem :: String -> GameState -> IO GameState
-takeItem itemName gameState =
+
+takeItemFromRoom :: String -> GameState -> IO GameState
+takeItemFromRoom itemName gameState =
   case find (\item -> name item == itemName) (roomItems (currentRoom gameState)) of
     Just item -> do
       let currentInventory = inventory gameState
@@ -24,20 +27,21 @@ takeItem itemName gameState =
       let updatedRoom = removeItemFromRoom item (currentRoom gameState)
       let updatedRoomStates = Map.insert currentRoomName updatedRoom currentRoomStates
       return gameState {
-        currentRoom = updatedRoom,
-        inventory = updatedInventory,
-        roomStates = updatedRoomStates
-      }
+             currentRoom = updatedRoom,
+             inventory = updatedInventory,
+             roomStates = updatedRoomStates
+             }
     Nothing -> putStrLn "I don't see that here" >> return gameState
 
 
--- helper functions
-addItemToInventory :: Interactable -> Map.Map String (Interactable, Int) -> Map.Map String (Interactable, Int)
-addItemToInventory newItem inventory =
-  case Map.lookup (name newItem) inventory of
-    Just (i, count) -> Map.insert (name newItem) (newItem, count+1) inventory
-    Nothing -> Map.insert (name newItem) (newItem, 1) inventory
-
+takeItem :: String -> GameState -> IO GameState
+takeItem itemName gameState =
+  -- separate cases for removing from room or from container
+  let alwaysInContainer = itemName `elem` [name labShoes, name crowbar, name coat]
+      powerCellFromContainer = itemName == name powerCell && roomName (currentRoom gameState) == roomName experimentRoom in
+  if alwaysInContainer || powerCellFromContainer
+  then takeItemFromContainer itemName gameState
+  else takeItemFromRoom itemName gameState
 
 removeItemFromRoom :: Interactable -> Room -> Room
 removeItemFromRoom item room =

@@ -10,13 +10,27 @@ handleUnlock "vent" gameState =
   if roomName (currentRoom gameState) /= roomName generatorRoom
   then putStrLn "I don't see that here" >> return gameState
   else
-    if Map.member (name crowbar) (inventory gameState)
-    then putStrLn ("You slide the crowbar between the vent door and its door frame\n" ++
-                  "and push with a lot of force. The vent swings open!")
-         >> return gameState {ventBlocked = False}
-    else putStrLn ("The vent is closed shut and the door doesn't seem to budge.\n" ++
+    case ventBlocked gameState of
+      False -> putStrLn "You've already opened the vent!" >> return gameState
+      True -> if Map.member (name crowbar) (inventory gameState)
+              then putStrLn ("You slide the crowbar between the vent door and its door frame\n" ++
+                   "and push with a lot of force. The vent swings open!")
+                   >> return gameState {ventBlocked = False}
+              else putStrLn ("The vent is closed shut and the door doesn't seem to budge.\n" ++
                   "Maybe using some tool would help?")
-         >> return gameState
+                >> return gameState
+
+handleUnlock "compartment" gameState =
+  if roomName (currentRoom gameState) /= roomName lockerRoom
+    then putStrLn "I don't see that here" >> return gameState
+    else
+      if Map.member (name smallKey) (inventory gameState)
+      then do
+        putStrLn("Unlocked!")
+        return $ gameState { lockerCompartmentBlocked = False}
+      else
+        putStrLn "Can't unlock it. Perhaps you need something to unlock it with?" >> return gameState
+
 
 handleUnlock directionStr gameState =
   case parseDirection directionStr of

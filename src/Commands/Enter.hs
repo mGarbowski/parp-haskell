@@ -4,6 +4,7 @@ import GameState
 import Rooms
 import Interactables
 import IntroOutro
+import Commands.Unlock
 
 -- Enter vent if possible
 tryEnterVent :: GameState -> IO GameState
@@ -15,7 +16,9 @@ tryEnterVent gameState =
       True -> do
         putStrLn "The vent is closed shut and the door doesn't seem to budge. Maybe using some tool would help?"
         return gameState
-      False -> return gameState {currentRoom = vent}
+      False -> do
+         putStrLn $ roomDescription vent
+         return gameState {currentRoom = vent}
 
 
 tryEnterElevator :: GameState -> IO GameState

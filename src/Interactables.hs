@@ -22,7 +22,7 @@ controlPanel = Interactable {
                 "control panel exudes an air of authority, silently overseeing the lab's intricate\n" ++
                 "systems from its place in the security room.\n" ++
                 "One switch catches your eye - it's the elevator power supply\n" ++
-                "This is what you have been looking for!\n",
+                "This is what you have been looking for!",
   hint = "You can use it to `power on` something"
 }
 
@@ -38,7 +38,7 @@ computer = Interactable {
   name = "computer",
   description = "On the desk, a computer sits dormant. Its screen is powered off, casting a\n" ++
                 "dark reflection in the quiet room. The keyboard awaits your interaction,\n" ++
-                "could its hard drives have some answers for you?\n",
+                "could its hard drives have some answers for you?",
   hint = "You can use it as a decorative piece or `power on computer`. to make better use of it."
 }
 
@@ -47,16 +47,14 @@ generator = Interactable {
   name = "generator",
   description = "The emergency power generator looms with a single glowing cell within, flanked by two conspicuous empty slots,\n" ++
                 "rendering the machine silent and incomplete, waiting for its missing components.\n" ++
-                "In order to restore electricity in the lab, the two remaining cells have to be found.\n", -- todo
+                "In order to restore electricity in the lab, the two remaining cells have to be found.", -- todo
   hint = "Use `power on generator` to power it on"
 }
 
 brokenDoor :: Interactable
 brokenDoor = Interactable {
   name = "broken door",
-  description = "You inspect the door closely and decide to flip it over.\n" ++
-                "What a surprise! Somebody must've put a key into the keyhole.\n" ++
-                "The key is bent, but it is attached to a keychain, on which there is another key. What could it unlock?", -- todo
+  description = "A massive door, ripped out of its hinges is laying on the floor next to the entrance it used to guard.",
   hint = "Maybe taking a closer look at it will reveal something?"
 }
 
@@ -77,7 +75,7 @@ desk = Interactable {
                 "at its center. The smooth surface suggests a place for work or study, while\n" ++
                 "the surrounding space remains uncluttered, you bend to see what's underneath it\n" ++
                 "There is a sticky note! It says \"pass: rot13(XvetvfJnygre)\"\n" ++
-                "What's rot13? The computer nerds from the lab wouldn't just leave a password in plain text for everyone to see\n",
+                "What's rot13? The computer nerds from the lab wouldn't just leave a password in plain text for everyone to see",
   hint = "just google it"
 }
 
@@ -89,7 +87,7 @@ keypad = Interactable {
                 "To enter, you must input the correct 6-digit code.",
   hint = "Use `enter keypad <code>` to enter a code\n" ++
          "Only 6 digits? That's only like 999 999 options, you can just brute force it...\n" ++
-         "...or look around for the code, it must be *somewhere*\n"
+         "...or look around for the code, it must be *somewhere*"
 }
 
 toolChest :: Interactable
@@ -97,4 +95,20 @@ toolChest = Interactable {
   name = "tool chest",
   description = "Inside there is a crowbar and a power cell",
   hint = "Wearing the shoes, you can cross the toxic puddle and reach into the tool chest"
+}
+
+locker :: Interactable
+locker = Interactable {
+  name = "locker",
+  description = "A locker for storing personal items" ++
+                "\nThe locker reveals two compartments, in the upper part, a lab coat hangs neatly on a hanger" ++
+                "\nBelow there is another compartment.",
+  hint = "Look what's inside"
+}
+
+compartment :: Interactable
+compartment = Interactable {
+  name = "compartment",
+  description = "In the smaller compartment is pair of sturdy, lab shoes. These could probably come in handy!",
+  hint = "Perhaps you can use the contents of the compartment later?"
 }

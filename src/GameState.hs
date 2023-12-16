@@ -1,12 +1,15 @@
 module GameState where
 import Rooms
 import Interactables
+import Items
 import qualified Data.Map as Map
 
 data GameState = GameState {
   currentRoom :: Room,
   inventory :: Map.Map String (Interactable, Int),  -- mapping item name to item object and count
   roomStates :: Map.Map String Room,
+  lockerCompartmentBlocked :: Bool,
+  containerContents :: Map.Map String [Interactable],
   keycodeEntered :: Bool,
   ventBlocked :: Bool,
   generatorOn :: Bool,
@@ -30,6 +33,10 @@ initialGameState = GameState {
     (roomName vent, vent),
     (roomName exitRoom, exitRoom)
   ],
+  lockerCompartmentBlocked = True,
+  containerContents = Map.fromList [(name locker, [coat]),
+                                 (name toolChest, [powerCell, crowbar]),
+                                 (name compartment, [labShoes])],
   keycodeEntered = False,
   ventBlocked = True,
   generatorOn = False,
@@ -43,7 +50,8 @@ allInteractables gameState =
   let inventoryItems = map fst (Map.elems (inventory gameState))
       itemsInRoom = roomItems $ currentRoom gameState
       roomInteractables = interactables $ currentRoom gameState
-  in inventoryItems ++ itemsInRoom ++ roomInteractables
+      containerItems = [coat, powerCell, crowbar, lockerRoomKey]
+  in inventoryItems ++ itemsInRoom ++ roomInteractables ++ containerItems
 
 
 updateCurrentRoom :: GameState -> GameState
