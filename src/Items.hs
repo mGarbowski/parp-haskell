@@ -40,7 +40,7 @@ labShoes = Interactable {
   hint = "Use `put on` to put on the shoes"
 }
 
-smallKey :: Interactable  -- todo use it in the game
+smallKey :: Interactable
 smallKey = Interactable {
   name = "small key",
   description = "A small key, does not match the size of the keyholes in any of the doors you have seen so far.\n" ++

@@ -8,10 +8,10 @@ import Data.Maybe (fromJust)
 import Rooms
 import Util
 
-takeItemFromContainer :: String -> GameState -> IO GameState
 -- handles removal of an item from its container
+takeItemFromContainer :: String -> GameState -> IO GameState
 takeItemFromContainer itemName gameState = do
-  isAvailable <- (isContainerAvaialable itemName gameState)
+  isAvailable <- (isContainerAvailable itemName gameState)
   case isAvailable of
     False -> return gameState
     True -> do
@@ -26,38 +26,40 @@ takeItemFromContainer itemName gameState = do
         let currContainerMap = containerContents gameState
         let updatedContainerMap = Map.insert (getContainerName itemName) updatedContainerContents currContainerMap
         return gameState {
-               inventory = updatedInventory,
-               containerContents = updatedContainerMap
-               }
+          inventory = updatedInventory,
+          containerContents = updatedContainerMap
+        }
 
 -- helper functions and map binding item name to container name
 itemNameToContainer :: Map.Map String String
-itemNameToContainer = Map.fromList [((name coat), (name locker)),
-                                    ((name powerCell), (name toolChest)),
-                                    ((name crowbar), (name toolChest)),
-                                    ((name labShoes), (name compartment))]
+itemNameToContainer = Map.fromList [
+    ((name coat), (name locker)),
+    ((name powerCell), (name toolChest)),
+    ((name crowbar), (name toolChest)),
+    ((name labShoes), (name compartment))
+  ]
 
 
-getContainerName :: String -> String
 -- returns the name of the container bound to the given item name
+getContainerName :: String -> String
 getContainerName itemName =
   fromJust $ Map.lookup itemName itemNameToContainer
 
-getContainerContents :: String -> GameState -> [Interactable]
 -- returns contents of the container related to the given itemName
+getContainerContents :: String -> GameState -> [Interactable]
 getContainerContents itemName gameState =
   fromJust $ Map.lookup (getContainerName itemName) (containerContents gameState)
 
-canRemoveFromContainer :: String -> GameState -> Bool
 -- returns whether the item can be removed from a container or it has already been removed before
+canRemoveFromContainer :: String -> GameState -> Bool
 canRemoveFromContainer itemName gameState =
   itemName `elem` (map name (getContainerContents itemName gameState))
 
-isContainerAvaialable :: String -> GameState -> IO Bool
 {- if the container related to the itemName is in the same room as the player and it is not locked, returns True.
 Else False. Related to the experiment room case when toolChest is not interactable until the player has the boots on
 and the locked locker compartment -}
-isContainerAvaialable itemName gameState =
+isContainerAvailable :: String -> GameState -> IO Bool
+isContainerAvailable itemName gameState =
   let currentRoomInteractables = interactables $ currentRoom gameState
       relatedContainer = getContainerName itemName
       currRoomInteractablesByName = map name currentRoomInteractables

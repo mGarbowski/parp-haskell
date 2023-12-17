@@ -34,14 +34,14 @@ takeItemFromRoom itemName gameState =
     Nothing -> putStrLn "I don't see that here" >> return gameState
 
 
+-- separate cases for removing from room or from container
 takeItem :: String -> GameState -> IO GameState
 takeItem itemName gameState =
-  -- separate cases for removing from room or from container
   let alwaysInContainer = itemName `elem` [name labShoes, name crowbar, name coat]
-      powerCellFromContainer = itemName == name powerCell && roomName (currentRoom gameState) == roomName experimentRoom in
-  if alwaysInContainer || powerCellFromContainer
-  then takeItemFromContainer itemName gameState
-  else takeItemFromRoom itemName gameState
+      powerCellFromContainer = itemName == name powerCell && roomName (currentRoom gameState) == roomName experimentRoom
+  in  if alwaysInContainer || powerCellFromContainer
+      then takeItemFromContainer itemName gameState
+      else takeItemFromRoom itemName gameState
 
 removeItemFromRoom :: Interactable -> Room -> Room
 removeItemFromRoom item room =

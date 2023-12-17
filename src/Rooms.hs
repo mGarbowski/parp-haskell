@@ -46,8 +46,8 @@ lockerRoom = Room {
   directions = Map.fromList [
     (East, ("Corridor One", False)),
     (North, ("Security Room", False))
-    ]
-  }
+  ]
+}
 
 securityRoom :: Room
 securityRoom = Room {
@@ -182,4 +182,3 @@ vent = Room {
 }
 
 -- todo take descriptions outside of Room objects as they depend on GameState in the prolog version
--- handle Items being in containers
