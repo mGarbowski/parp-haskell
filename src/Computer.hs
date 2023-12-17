@@ -1,8 +1,6 @@
 module Computer where
 import Data.List
 import System.IO
-
--- haskeline imports for nicer terminal experience
 import Control.Monad.IO.Class (liftIO)
 import System.Console.Haskeline
 
@@ -12,6 +10,7 @@ runComputer :: IO ()
 runComputer = do
     execCommandLoop
 
+-- main computer input loop
 execCommandLoop :: IO ()
 execCommandLoop = runInputT defaultSettings (loop)
   where
@@ -27,6 +26,7 @@ execCommandLoop = runInputT defaultSettings (loop)
                     liftIO $ processCommandInput inp
                     loop
 
+-- process user input, supports a few basic commands + sudo mode
 processCommandInput :: Command -> IO ()
 processCommandInput input
     | input == "ls" = putStrLn ""
@@ -39,7 +39,7 @@ processCommandInput input
     | input == "clear" = putStrLn "\ESC[2J" -- ANSI escape code to clear the terminal
     | otherwise = putStrLn $ "Unknown command: " ++ input
 
-
+-- loop asking for password when something is ran with sudo
 passwordLoop :: String -> IO ()
 passwordLoop input = runInputT defaultSettings (loop input)
   where

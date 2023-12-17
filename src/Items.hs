@@ -1,6 +1,6 @@
 module Items where
 import Interactables
-
+-- interactable items which can be picked up
 
 lockerRoomKey :: Interactable
 lockerRoomKey = Interactable {
@@ -40,13 +40,10 @@ labShoes = Interactable {
   hint = "Use `put on` to put on the shoes"
 }
 
-smallKey :: Interactable  -- todo use it in the game
+smallKey :: Interactable
 smallKey = Interactable {
   name = "small key",
   description = "A small key, does not match the size of the keyholes in any of the doors you have seen so far.\n" ++
                     "It must open something smaller like a...",
   hint = "Use it to unlock the locker compartment"
 }
-
-
--- todo make item descriptions conditional as they depend on gameState

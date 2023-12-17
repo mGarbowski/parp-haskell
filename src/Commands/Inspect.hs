@@ -10,11 +10,14 @@ import Data.Maybe (fromJust)
 
 handleInspect :: String -> GameState -> IO GameState
 handleInspect entityName gameState
+  {- the toolChest, locker, compartment, broken door and coat are items with dynamic descriptions so they
+     require special cases -}
   | entityName == name toolChest = handleToolChestInspect gameState
   | entityName == name locker = handleLockerInspect gameState
   | entityName == name compartment = handleCompartmentInspect gameState
   | entityName == name coat = handleSpecialInspect coat gameState
   | entityName == name brokenDoor = handleSpecialInspect brokenDoor gameState
+  -- basic inspect operation
   | otherwise = handleSimpleInspect entityName gameState
 
 
@@ -26,16 +29,19 @@ handleSimpleInspect entityName gameState = do
     _ -> do putStrLn "I don't see that here"
   return gameState
 
+-- this takes care of inspecting the items which yield another item at the first interaction
 handleSpecialInspect :: Interactable -> GameState -> IO GameState
 handleSpecialInspect entity gameState =
   let entityName = name entity in do
     putStrLn $ description entity
     if entityName == name coat
+    -- check if the lockerRoomKey was already collected from the coat and add extra text if not
     then case Map.member (name lockerRoomKey) (inventory gameState) of
             True -> return gameState
             False -> do putStrLn "Instinctively you check your pockets. You feel a small, cold object - a key"
                         return gameState { inventory = addItemToInventory lockerRoomKey (inventory gameState) }
     else if entityName == name brokenDoor
+    -- similar case with broken door
          then case Map.member (name smallKey) (inventory gameState) of
            True -> return gameState
            False -> do putStr ("You inspect the door closely and decide to flip it over.\n" ++
@@ -45,12 +51,14 @@ handleSpecialInspect entity gameState =
                        return gameState { inventory = addItemToInventory smallKey (inventory gameState) }
          else return gameState
 
+-- the locker compartments gets a different description based on whether it is locked or not
 handleCompartmentInspect :: GameState -> IO GameState
 handleCompartmentInspect gameState =
   case lockerCompartmentBlocked gameState of
     True -> putStrLn "The bottom compartment is locked. There is a keyhole, but where is the key?" >> return gameState
     False -> handleSimpleInspect (name compartment) gameState
 
+-- if the coat has been taken from the locker, don't include it in the description of the locker
 handleLockerInspect :: GameState -> IO GameState
 handleLockerInspect gameState =
   let lockerContents = fromJust $ Map.lookup (name locker) (containerContents gameState) in
@@ -63,6 +71,7 @@ handleLockerInspect gameState =
       True -> handleSimpleInspect (name locker) gameState
 
 
+-- the tool chest gets different descriptions based on the items it contains
 handleToolChestInspect :: GameState -> IO GameState
 handleToolChestInspect gameState = do
   isAvailable <- isContainerAvaialable (name powerCell) gameState

@@ -30,7 +30,7 @@ data Room = Room {
   deriving Show
 
 
--- Function to define the initial room
+-- Functions to initialize rooms
 lockerRoom :: Room
 lockerRoom = Room {
   roomName = "Locker Room",
@@ -119,7 +119,7 @@ exitRoom :: Room
 exitRoom = Room {
   roomName = "Exit Room",
   roomDescription = "As you're crawling out of the ventilation shaft, you notice an elevator.\n" ++
-                    "Finally, a way out of this maze!", -- todo: tell the user there even is a power cell here or grab it for him as he enters
+                    "Finally, a way out of this maze!",
   roomHint = "You can interact with vent and elevator",
   roomItems = [powerCell],
   interactables = [elevator, ventEntrance],
@@ -142,6 +142,7 @@ experimentRoom = Room {
   ]
 }
 
+-- different mechanics available in the experiment room after putting on shoes, logically it's a different room
 experimentRoomWearingShoes :: Room
 experimentRoomWearingShoes = experimentRoom {
   roomDescription = "You are back in the experiment room.\n" ++
@@ -180,6 +181,3 @@ vent = Room {
     (South, ("Computer Room", True))
   ]
 }
-
--- todo take descriptions outside of Room objects as they depend on GameState in the prolog version
--- handle Items being in containers

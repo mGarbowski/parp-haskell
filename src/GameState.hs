@@ -53,7 +53,7 @@ allInteractables gameState =
       containerItems = [coat, powerCell, crowbar, lockerRoomKey]
   in inventoryItems ++ itemsInRoom ++ roomInteractables ++ containerItems
 
-
+-- updates the currentRoom field in the gamestate map to reflect recent changes in the rom
 updateCurrentRoom :: GameState -> GameState
 updateCurrentRoom gameState =
   let currRoomName = roomName (currentRoom gameState)

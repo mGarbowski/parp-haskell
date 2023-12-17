@@ -4,6 +4,7 @@ import Rooms
 import qualified Data.Map as Map
 import Control.Monad.IO.Class (liftIO)
 
+{- handles player movement, including invalid input -}
 moveDirection :: String -> GameState -> IO GameState
 moveDirection directionStr gameState = case parseDirection directionStr of
   Just direction ->
