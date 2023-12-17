@@ -17,6 +17,8 @@ handleInspect entityName gameState
   | entityName == name compartment  = handleCompartmentInspect gameState
   | entityName == name coat         = handleCoatInspect gameState
   | entityName == name brokenDoor   = handleBrokenDoorInspect gameState
+  | entityName == name elevator     = handleElevatorInspect gameState
+  | entityName == name generator    = handleGeneratorInspect gameState
   | otherwise                       = handleSimpleInspect entityName gameState
 
 
@@ -30,7 +32,25 @@ handleSimpleInspect entityName gameState = do
 
 --
 -- Special cases where description depends on the game's state
---
+-- todo check if entity is in the same room
+
+handleElevatorInspect :: GameState -> IO GameState
+handleElevatorInspect gameState =
+  case elevatorOn gameState of
+    False -> handleSimpleInspect (name elevator) gameState
+    True -> do
+      putStrLn ("The elevator is operational and stands ready, a beacon of potential escape.\n" ++
+                "Its doors slightly ajar, inviting you to step inside and make your way to freedom.")
+      return gameState
+
+handleGeneratorInspect :: GameState -> IO GameState
+handleGeneratorInspect gameState =
+  case generatorOn gameState of
+    False -> handleSimpleInspect (name generator) gameState
+    True -> do
+      putStrLn ("With the power cells in place, the generator hums to life, its core glowing vibrantly.\n" ++
+                "It's ready to go—just a switch away from unleashing its energy.")
+      return gameState
 
 handleCoatInspect :: GameState -> IO GameState
 handleCoatInspect gameState = do
