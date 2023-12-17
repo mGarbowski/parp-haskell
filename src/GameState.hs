@@ -52,7 +52,7 @@ allInteractables gameState =
   let inventoryItems = map fst (Map.elems (inventory gameState))
       itemsInRoom = roomItems $ currentRoom gameState
       roomInteractables = interactables $ currentRoom gameState
-      containerItems = [coat, powerCell, crowbar, lockerRoomKey]  -- todo ???
+      containerItems = [coat, powerCell, crowbar, lockerRoomKey]  -- todo extract dynamically from gameState only those in current room's containers
   in inventoryItems ++ itemsInRoom ++ roomInteractables ++ containerItems
 
 

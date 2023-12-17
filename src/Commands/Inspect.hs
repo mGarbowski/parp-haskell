@@ -20,7 +20,7 @@ handleInspect entityName gameState
   | otherwise                       = handleSimpleInspect entityName gameState
 
 
--- Handle the simple case where description does not change
+-- Handle the simple case where description is not dynamic
 handleSimpleInspect :: String -> GameState -> IO GameState  -- todo refactor
 handleSimpleInspect entityName gameState = do
   case find (\i -> name i == entityName) (allInteractables gameState) of

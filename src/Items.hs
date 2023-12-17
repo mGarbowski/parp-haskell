@@ -47,6 +47,3 @@ smallKey = Interactable {
                     "It must open something smaller like a...",
   hint = "Use it to unlock the locker compartment"
 }
-
-
--- todo make item descriptions conditional as they depend on gameState
