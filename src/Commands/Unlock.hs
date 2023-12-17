@@ -6,6 +6,7 @@ import Items
 import Interactables
 
 handleUnlock :: String -> GameState -> IO GameState
+-- unlock vent if possible
 handleUnlock "vent" gameState =
   if roomName (currentRoom gameState) /= roomName generatorRoom
   then putStrLn "I don't see that here" >> return gameState
@@ -20,6 +21,7 @@ handleUnlock "vent" gameState =
                   "Maybe using some tool would help?")
                 >> return gameState
 
+-- unlock compartment if possible
 handleUnlock "compartment" gameState =
   if roomName (currentRoom gameState) /= roomName lockerRoom
     then putStrLn "I don't see that here" >> return gameState
@@ -32,6 +34,7 @@ handleUnlock "compartment" gameState =
         putStrLn "Can't unlock it. Perhaps you need something to unlock it with?" >> return gameState
 
 
+-- unlock a door in a given direction if possible
 handleUnlock directionStr gameState =
   case parseDirection directionStr of
     Nothing -> return gameState
@@ -66,6 +69,7 @@ unlockPath direction gameState =
         in gameState {currentRoom = newThisRoom, roomStates = roomsWithBoth}
 
 
+-- helper function, unlocks the path to another room once the player has unlocked the door
 unlockPathInRoom :: Direction -> Room -> Room
 unlockPathInRoom direction room =
   case Map.lookup direction (directions room) of

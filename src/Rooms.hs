@@ -30,7 +30,7 @@ data Room = Room {
   deriving Show
 
 
--- Function to define the initial room
+-- Functions to initialize rooms
 lockerRoom :: Room
 lockerRoom = Room {
   roomName = "Locker Room",
@@ -142,6 +142,7 @@ experimentRoom = Room {
   ]
 }
 
+-- different mechanics available in the experiment room after putting on shoes, logically it's a different room
 experimentRoomWearingShoes :: Room
 experimentRoomWearingShoes = experimentRoom {
   roomDescription = "You are back in the experiment room.\n" ++
@@ -180,5 +181,3 @@ vent = Room {
     (South, ("Computer Room", True))
   ]
 }
-
--- todo take descriptions outside of Room objects as they depend on GameState in the prolog version

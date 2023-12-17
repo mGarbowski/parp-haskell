@@ -1,6 +1,6 @@
 module Items where
 import Interactables
-
+-- interactable items which can be picked up
 
 lockerRoomKey :: Interactable
 lockerRoomKey = Interactable {

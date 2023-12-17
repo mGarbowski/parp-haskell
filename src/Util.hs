@@ -2,7 +2,7 @@ module Util where
 import qualified Data.Map as Map
 import Interactables
 
--- helper functions used in more than one place
+-- helper function used in more than one place
 addItemToInventory :: Interactable -> Map.Map String (Interactable, Int) -> Map.Map String (Interactable, Int)
 addItemToInventory newItem inventory =
   case Map.lookup (name newItem) inventory of

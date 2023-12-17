@@ -32,6 +32,7 @@ handleSimpleInspect entityName gameState = do
 -- Special cases where description depends on the game's state
 --
 
+-- these functions handle inspecting items which yield another item at the first interaction
 handleCoatInspect :: GameState -> IO GameState
 handleCoatInspect gameState = do
   putStrLn (description coat)
@@ -53,12 +54,14 @@ handleBrokenDoorInspect gameState = do
               "What could it unlock?\n")
       return gameState { inventory = addItemToInventory smallKey (inventory gameState) }
 
+-- the locker compartments gets a different description based on whether it is locked or not
 handleCompartmentInspect :: GameState -> IO GameState
 handleCompartmentInspect gameState =
   case lockerCompartmentBlocked gameState of
     True -> putStrLn "The bottom compartment is locked. There is a keyhole, but where is the key?" >> return gameState
     False -> handleSimpleInspect (name compartment) gameState
 
+-- if the coat has been taken from the locker, don't include it in the description of the locker
 handleLockerInspect :: GameState -> IO GameState
 handleLockerInspect gameState =
   let lockerContents = fromJust $ Map.lookup (name locker) (containerContents gameState) in
@@ -71,6 +74,7 @@ handleLockerInspect gameState =
         return gameState
 
 
+-- the tool chest gets different descriptions based on the items it contains
 handleToolChestInspect :: GameState -> IO GameState
 handleToolChestInspect gameState = do
   isAvailable <- isContainerAvailable (name powerCell) gameState

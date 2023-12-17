@@ -16,6 +16,8 @@ displayInventory gameState =
   in putStrLn text >> return gameState
 
 
+{- remove an item from a room and add it to a player's inventory. used for the items which are directly in the
+   room, not the container ones -}
 takeItemFromRoom :: String -> GameState -> IO GameState
 takeItemFromRoom itemName gameState =
   case find (\item -> name item == itemName) (roomItems (currentRoom gameState)) of
@@ -34,7 +36,7 @@ takeItemFromRoom itemName gameState =
     Nothing -> putStrLn "I don't see that here" >> return gameState
 
 
--- separate cases for removing from room or from container
+-- check if the item is to be taken from a container and call the designated function
 takeItem :: String -> GameState -> IO GameState
 takeItem itemName gameState =
   let alwaysInContainer = itemName `elem` [name labShoes, name crowbar, name coat]
@@ -43,6 +45,7 @@ takeItem itemName gameState =
       then takeItemFromContainer itemName gameState
       else takeItemFromRoom itemName gameState
 
+-- helper function
 removeItemFromRoom :: Interactable -> Room -> Room
 removeItemFromRoom item room =
   let prevItems = roomItems room

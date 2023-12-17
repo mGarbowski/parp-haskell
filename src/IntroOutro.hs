@@ -1,4 +1,5 @@
 module IntroOutro where
+-- Separate file for the intro and outro strings and functions displaying them
 
 introduction :: String
 introduction = "\nAs you slowly open your eyes, a throbbing ache reverberates through your head,\n" ++
