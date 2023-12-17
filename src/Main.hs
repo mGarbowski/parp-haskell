@@ -43,7 +43,7 @@ processInput input gamestate
   | "put on lab shoes" == input        = handlePutOnShoes gamestate
   | "clear" == input                   = putStrLn "\ESC[2J" >> return gamestate
   | otherwise = putStrLn "Invalid command. Type 'instructions' to see available commands." >> return gamestate
-  -- todo open
+
 
 -- Function to run the game loop
 gameLoop :: GameState -> IO ()

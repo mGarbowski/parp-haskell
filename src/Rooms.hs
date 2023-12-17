@@ -46,8 +46,8 @@ lockerRoom = Room {
   directions = Map.fromList [
     (East, ("Corridor One", False)),
     (North, ("Security Room", False))
-    ]
-  }
+  ]
+}
 
 securityRoom :: Room
 securityRoom = Room {
@@ -119,7 +119,7 @@ exitRoom :: Room
 exitRoom = Room {
   roomName = "Exit Room",
   roomDescription = "As you're crawling out of the ventilation shaft, you notice an elevator.\n" ++
-                    "Finally, a way out of this maze!",
+                    "Finally, a way out of this maze!", -- todo: tell the user there even is a power cell here or grab it for him as he enters
   roomHint = "You can interact with vent and elevator",
   roomItems = [powerCell],
   interactables = [elevator, ventEntrance],

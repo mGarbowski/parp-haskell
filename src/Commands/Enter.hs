@@ -26,11 +26,10 @@ tryEnterVent gameState =
 tryEnterElevator :: GameState -> IO GameState
 tryEnterElevator gamestate = case elevatorOn gamestate of
     False -> do
-            putStrLn $ "You enter the elevator, but it is not responsive to you pressing the buttons, the security\n" ++
-                "override is in effect."
-            return gamestate
+      putStrLn $ "You enter the elevator, but it is not responsive to you pressing the buttons, the security\n" ++
+          "override is in effect."
+      return gamestate
     True ->  displayOutro >> return gamestate {gameOver = True}
-
 
 
 -- Enter keycode on the keypad in locker room

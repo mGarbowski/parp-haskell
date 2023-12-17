@@ -36,14 +36,14 @@ takeItemFromRoom itemName gameState =
     Nothing -> putStrLn "I don't see that here" >> return gameState
 
 
+-- check if the item is to be taken from a container and call the designated function
 takeItem :: String -> GameState -> IO GameState
 takeItem itemName gameState =
-  -- check if the item is to be taken from a container and call the designated function
   let alwaysInContainer = itemName `elem` [name labShoes, name crowbar, name coat]
-      powerCellFromContainer = itemName == name powerCell && roomName (currentRoom gameState) == roomName experimentRoom in
-  if alwaysInContainer || powerCellFromContainer
-  then takeItemFromContainer itemName gameState
-  else takeItemFromRoom itemName gameState
+      powerCellFromContainer = itemName == name powerCell && roomName (currentRoom gameState) == roomName experimentRoom
+  in  if alwaysInContainer || powerCellFromContainer
+      then takeItemFromContainer itemName gameState
+      else takeItemFromRoom itemName gameState
 
 -- helper function
 removeItemFromRoom :: Interactable -> Room -> Room

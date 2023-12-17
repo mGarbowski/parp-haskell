@@ -34,9 +34,11 @@ initialGameState = GameState {
     (roomName exitRoom, exitRoom)
   ],
   lockerCompartmentBlocked = True,
-  containerContents = Map.fromList [(name locker, [coat]),
-                                 (name toolChest, [powerCell, crowbar]),
-                                 (name compartment, [labShoes])],
+  containerContents = Map.fromList [
+    (name locker, [coat]),
+    (name toolChest, [powerCell, crowbar]),
+    (name compartment, [labShoes])
+  ],
   keycodeEntered = False,
   ventBlocked = True,
   generatorOn = False,
@@ -50,10 +52,11 @@ allInteractables gameState =
   let inventoryItems = map fst (Map.elems (inventory gameState))
       itemsInRoom = roomItems $ currentRoom gameState
       roomInteractables = interactables $ currentRoom gameState
-      containerItems = [coat, powerCell, crowbar, lockerRoomKey]
+      containerItems = [coat, powerCell, crowbar, lockerRoomKey]  -- todo extract dynamically from gameState only those in current room's containers
   in inventoryItems ++ itemsInRoom ++ roomInteractables ++ containerItems
 
--- updates the currentRoom field in the gamestate map to reflect recent changes in the rom
+
+-- Helper function, update the currentRoom in game state using its current state from roomStates
 updateCurrentRoom :: GameState -> GameState
 updateCurrentRoom gameState =
   let currRoomName = roomName (currentRoom gameState)

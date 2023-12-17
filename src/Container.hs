@@ -11,7 +11,7 @@ import Util
 -- handles removal of an item from its container
 takeItemFromContainer :: String -> GameState -> IO GameState
 takeItemFromContainer itemName gameState = do
-  isAvailable <- (isContainerAvaialable itemName gameState)
+  isAvailable <- (isContainerAvailable itemName gameState)
   case isAvailable of
     False -> return gameState
     True -> do
@@ -26,16 +26,18 @@ takeItemFromContainer itemName gameState = do
         let currContainerMap = containerContents gameState
         let updatedContainerMap = Map.insert (getContainerName itemName) updatedContainerContents currContainerMap
         return gameState {
-               inventory = updatedInventory,
-               containerContents = updatedContainerMap
-               }
+          inventory = updatedInventory,
+          containerContents = updatedContainerMap
+        }
 
 -- helper functions and map binding item name to container name
 itemNameToContainer :: Map.Map String String
-itemNameToContainer = Map.fromList [((name coat), (name locker)),
-                                    ((name powerCell), (name toolChest)),
-                                    ((name crowbar), (name toolChest)),
-                                    ((name labShoes), (name compartment))]
+itemNameToContainer = Map.fromList [
+    ((name coat), (name locker)),
+    ((name powerCell), (name toolChest)),
+    ((name crowbar), (name toolChest)),
+    ((name labShoes), (name compartment))
+  ]
 
 
 -- returns the name of the container bound to the given item name
@@ -56,8 +58,8 @@ canRemoveFromContainer itemName gameState =
 {- if the container related to the itemName is in the same room as the player and it is not locked, returns True.
 Else False. Related to the experiment room case when toolChest is not interactable until the player has the boots on
 and the locked locker compartment -}
-isContainerAvaialable :: String -> GameState -> IO Bool
-isContainerAvaialable itemName gameState =
+isContainerAvailable :: String -> GameState -> IO Bool
+isContainerAvailable itemName gameState =
   let currentRoomInteractables = interactables $ currentRoom gameState
       relatedContainer = getContainerName itemName
       currRoomInteractablesByName = map name currentRoomInteractables
