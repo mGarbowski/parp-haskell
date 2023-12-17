@@ -43,7 +43,7 @@ generator = Interactable {
   name = "generator",
   description = "The emergency power generator looms with a single glowing cell within, flanked by two conspicuous empty slots,\n" ++
                 "rendering the machine silent and incomplete, waiting for its missing components.\n" ++
-                "In order to restore electricity in the lab, the two remaining cells have to be found.", -- todo
+                "In order to restore electricity in the lab, the two remaining cells have to be found.",
   hint = "Use `power on generator` to power it on"
 }
 
@@ -60,7 +60,7 @@ elevator = Interactable {
   description = "Approaching the elevator, you find it disabled, a security override in effect.\n" ++
                 "A prominent display blinks with a warning, indicating that access is restricted\n" ++
                 "and the elevator is currently non-operational. The usual hum of its machinery\n" ++
-                "is replaced by an eerie silence. Looks like the security staff can turn it on/off during emergencies.\n", --todo
+                "is replaced by an eerie silence. Looks like the security staff can turn it on/off during emergencies.\n",
   hint = "To go inside use `enter elevator`"
 }
 
