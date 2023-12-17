@@ -21,12 +21,11 @@ handleInspect entityName gameState
 
 
 -- Handle the simple case where description is not dynamic
-handleSimpleInspect :: String -> GameState -> IO GameState  -- todo refactor
+handleSimpleInspect :: String -> GameState -> IO GameState
 handleSimpleInspect entityName gameState = do
   case find (\i -> name i == entityName) (allInteractables gameState) of
-    Just entity -> do
-      (putStrLn $ description entity)
-    _ -> do putStrLn "I don't see that here"
+    Just entity -> putStrLn (description entity)
+    Nothing -> putStrLn "I don't see that here"
   return gameState
 
 -- todo refactor into separate functions (?)
